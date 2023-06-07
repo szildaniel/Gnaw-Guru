@@ -39,6 +39,11 @@ exports.logoutOne = exports.refreshOne = exports.loginOne = exports.registerOne 
 const users_model_1 = __importDefault(require("../models/users.model"));
 const authServices = __importStar(require("../services/auth.services"));
 const express_validator_1 = require("express-validator");
+const auth_1 = require("../utils/auth");
+const config_1 = __importDefault(require("config"));
+const ms_1 = __importDefault(require("ms"));
+const http_errors_1 = __importDefault(require("http-errors"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 function registerOne(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         const errors = (0, express_validator_1.validationResult)(req);
@@ -91,13 +96,59 @@ function loginOne(req, res, next) {
     });
 }
 exports.loginOne = loginOne;
-function refreshOne(req, res) {
-    console.log("refresh token working");
-    return res.sendStatus(200);
+function refreshOne(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log("refresh token working");
+        const secretRefreshKey = config_1.default.get("SECRET_REFRESH_KEY");
+        const secretAccessKey = config_1.default.get("SECRET_ACCESS_KEY");
+        const accessTokenLife = config_1.default.get("ACCESS_TOKEN_LIFE");
+        const { signedCookies } = req;
+        const { refreshToken } = signedCookies;
+        console.log(refreshToken);
+        if (!refreshToken) {
+            return res.sendStatus(204);
+        }
+        try {
+            const userWithRefreshToken = yield users_model_1.default.findOne({
+                "refreshToken.refreshToken": refreshToken,
+            });
+            if (!userWithRefreshToken) {
+                yield (0, auth_1.clearTokens)(req, res, next);
+                const error = http_errors_1.default.Unauthorized();
+                throw error;
+            }
+            try {
+                const decodedToken = jsonwebtoken_1.default.verify(refreshToken, secretRefreshKey);
+                const decodedId = decodedToken.userId;
+                const user = yield users_model_1.default.findOne({ _id: decodedId });
+                if (!user) {
+                    console.log("there is no user");
+                    yield (0, auth_1.clearTokens)(req, res);
+                    const error = (0, http_errors_1.default)(401, "Invalid credentials");
+                    throw error;
+                }
+                const accessToken = (0, auth_1.generateJWT)(user.id, secretAccessKey, accessTokenLife);
+                res.status(200).json({
+                    user,
+                    accessToken,
+                    expiresAt: new Date(Date.now() + (0, ms_1.default)(accessTokenLife)),
+                });
+            }
+            catch (error) {
+                return next(error);
+            }
+        }
+        catch (error) {
+            return next(error);
+        }
+    });
 }
 exports.refreshOne = refreshOne;
 function logoutOne(req, res) {
-    console.log("logout route working");
-    return res.sendStatus(200);
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log("logout route working");
+        yield (0, auth_1.clearTokens)(req, res);
+        return res.sendStatus(204);
+    });
 }
 exports.logoutOne = logoutOne;

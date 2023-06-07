@@ -38,7 +38,8 @@ const generateAuthToken = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             const updatedUser = yield users_model_1.default.findOneAndUpdate({ _id: user._id }, { refreshToken: token });
             res.cookie("refreshToken", refreshToken, {
                 httpOnly: true,
-                secure: !dev,
+                // secure: !dev,
+                secure: false,
                 signed: true,
                 expires: new Date(Date.now() + (0, ms_1.default)(refreshTokenLife)),
             });

@@ -7,7 +7,6 @@ const authRouter = Router();
 // @route POST api/register
 // @desc Register  User
 // @access pubic
-
 authRouter.post(
   "/register",
   [
@@ -28,7 +27,6 @@ authRouter.post(
 // @route POST api/login
 // @desc Login User
 // @access pubic
-
 authRouter.post(
   "/login",
   [
@@ -48,13 +46,11 @@ authRouter.post(
 // @route POST api/refresh
 // @desc Refresh auth token User
 // @access private
-
 authRouter.post("/refresh", authController.refreshOne);
 
 // @route POST api/logout
 // @desc Logout User
 // @access private
-
 authRouter.post("/logout", authController.logoutOne);
 
 export { authRouter };

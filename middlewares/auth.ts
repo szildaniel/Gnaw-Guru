@@ -38,7 +38,8 @@ export const generateAuthToken = async (req: Request, res: Response, next: NextF
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: !dev,
+        // secure: !dev,
+        secure: false,
         signed: true,
         expires: new Date(Date.now() + ms(refreshTokenLife)),
       });

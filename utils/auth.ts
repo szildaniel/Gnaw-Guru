@@ -1,5 +1,6 @@
 import jwt, { Secret } from "jsonwebtoken";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import UserModel from "../models/users.model";
 
 const dev = process.env.NODE_ENV === "development";
 export const generateJWT = (userId: string, secret: Secret, expirationTime: string) => {
@@ -12,18 +13,22 @@ export const generateJWT = (userId: string, secret: Secret, expirationTime: stri
   );
 };
 
-// const clearTokens = async (req: Request, res: Response) => {
-//   const { signedCookies = {} } = req;
-//   const { refreshToken } = signedCookies;
-//   if (refreshToken) {
-//     const index = tokens.findIndex((token) => token.refreshToken === refreshToken);
-//     if (index) {
-//       tokens.splice(index, 1);
-//     }
-//   }
-//   res.clearCookie("refreshToken", {
-//     httpOnly: true,
-//     secure: !dev,
-//     signed: true,
-//   });
-// };
+export const clearTokens = async (req: Request, res: Response, next?: NextFunction) => {
+  const { signedCookies = {} } = req;
+  const { refreshToken } = signedCookies;
+
+  if (refreshToken) {
+    const user = await UserModel.findOneAndUpdate(
+      {
+        "refreshToken.refreshToken": refreshToken,
+      },
+      { $unset: { refreshToken: 1 } }
+    );
+  }
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    // secure: !dev,
+    secure: false,
+    signed: true,
+  });
+};
