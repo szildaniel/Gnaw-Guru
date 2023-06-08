@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { isAuthenticated } from "../middlewares/auth";
 import * as userController from "../controllers/user.controller";
+import { verifyRoles } from "../middlewares/verifyRoles";
 
 const userRouter = Router();
 
@@ -8,18 +9,23 @@ const userRouter = Router();
 // @desc Get list of users
 // @access private
 
-userRouter.post("/list", isAuthenticated, userController.getUsersList);
+userRouter.get(
+  "/list",
+  isAuthenticated as any,
+  verifyRoles(["User", "Editor", "Admin"]) as any,
+  userController.getUsersList
+);
 
 // @route POST api/users/login
 // @desc Get authenticated user
 // @access pubic
 
-userRouter.post("/me", isAuthenticated, userController.getAuthenticatedUser);
+userRouter.get("/me", isAuthenticated as any, userController.getAuthenticatedUser);
 
 // @route POST api/users/refresh
 // @desc Get user by id
 // @access private
 
-userRouter.post("/:id", isAuthenticated, userController.getUserById);
+userRouter.get("/:id", isAuthenticated as any, userController.getUserById);
 
 export { userRouter };

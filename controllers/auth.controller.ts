@@ -10,6 +10,7 @@ import jwt, { Secret } from "jsonwebtoken";
 
 export interface IDecodedRefreshToken {
   userId: string;
+  roles: number[];
   iat: number;
   exp: number;
 }
@@ -71,7 +72,6 @@ export async function refreshOne(req: Request, res: Response, next: NextFunction
 
   const { signedCookies } = req;
   const { refreshToken } = signedCookies;
-  console.log(refreshToken);
   if (!refreshToken) {
     return res.sendStatus(204);
   }
@@ -99,7 +99,7 @@ export async function refreshOne(req: Request, res: Response, next: NextFunction
         throw error;
       }
 
-      const accessToken = generateJWT(user.id, secretAccessKey, accessTokenLife);
+      const accessToken = generateJWT(user.id, secretAccessKey, accessTokenLife, user.roles);
 
       res.status(200).json({
         user,

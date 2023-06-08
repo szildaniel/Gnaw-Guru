@@ -1,10 +1,11 @@
 import jwt, { Secret } from "jsonwebtoken";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, RequestHandler } from "express";
 import config from "config";
 import UserModel from "../models/users.model";
 import { generateJWT } from "../utils/auth";
 import ms from "ms";
 import createHttpError from "http-errors";
+import { Types } from "mongoose";
 
 const dev = process.env.NODE_ENV === "development";
 const refreshTokenLife: string = config.get("REFRESH_TOKEN_LIFE");
@@ -14,6 +15,14 @@ const accessSecretKey: Secret = config.get("SECRET_ACCESS_KEY");
 
 export interface IDecodedToken {
   _id: string;
+  roles: number[];
+  iat: number;
+  exp: number;
+}
+
+export interface IDecodedToken2 {
+  userId: string;
+  roles: number[];
   iat: number;
   exp: number;
 }
@@ -24,7 +33,12 @@ export const generateAuthToken = async (req: Request, res: Response, next: NextF
     const user = await UserModel.findOne({ email: email });
     if (user) {
       const refreshToken = generateJWT(user._id.toString(), refreshSecretKey, refreshTokenLife);
-      const accessToken = generateJWT(user._id.toString(), accessSecretKey, accessTokenLife);
+      const accessToken = generateJWT(
+        user._id.toString(),
+        accessSecretKey,
+        accessTokenLife,
+        user.roles
+      );
 
       const token = {
         refreshToken,
@@ -59,10 +73,24 @@ export const generateAuthToken = async (req: Request, res: Response, next: NextF
     return next(error);
   }
 };
+export interface RequestWithRoles extends Request {
+  userId: Types.ObjectId;
+  roles: number[];
+}
+type MiddlewareFunction = (
+  req: RequestWithRoles,
+  res: Response,
+  next: NextFunction
+) => Promise<void>;
 
-export const isAuthenticated = async (req: Request, res: Response, next: NextFunction) => {
+export const isAuthenticated: MiddlewareFunction = async (
+  req: RequestWithRoles,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
+
     if (!token) {
       const error = createHttpError.Unauthorized();
       throw error;
@@ -71,28 +99,29 @@ export const isAuthenticated = async (req: Request, res: Response, next: NextFun
     const { signedCookies = {} } = req;
 
     const { refreshToken } = signedCookies;
-
     if (!refreshToken) {
       const error = createHttpError.Unauthorized();
       throw error;
     }
-
     let decodedToken;
 
     try {
-      decodedToken = <IDecodedToken>jwt.verify(token, accessSecretKey);
+      decodedToken = <IDecodedToken2>jwt.verify(token, accessSecretKey);
     } catch (err) {
       const error = createHttpError.Unauthorized();
       throw next(error);
     }
 
-    const decodedId = decodedToken._id;
-    const user = UserModel.find({ _id: decodedId });
-
+    const decodedId = decodedToken.userId;
+    const user = await UserModel.findOne({ _id: decodedId });
     if (!user) {
       const error = createHttpError.Unauthorized();
-      throw error;
+      return next(error);
     }
-    next();
-  } catch (error) {}
+    req.userId = user._id.toString();
+    req.roles = user.roles;
+    return next();
+  } catch (error) {
+    next(error);
+  }
 };

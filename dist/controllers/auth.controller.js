@@ -104,7 +104,6 @@ function refreshOne(req, res, next) {
         const accessTokenLife = config_1.default.get("ACCESS_TOKEN_LIFE");
         const { signedCookies } = req;
         const { refreshToken } = signedCookies;
-        console.log(refreshToken);
         if (!refreshToken) {
             return res.sendStatus(204);
         }
@@ -127,7 +126,7 @@ function refreshOne(req, res, next) {
                     const error = (0, http_errors_1.default)(401, "Invalid credentials");
                     throw error;
                 }
-                const accessToken = (0, auth_1.generateJWT)(user.id, secretAccessKey, accessTokenLife);
+                const accessToken = (0, auth_1.generateJWT)(user.id, secretAccessKey, accessTokenLife, user.roles);
                 res.status(200).json({
                     user,
                     accessToken,

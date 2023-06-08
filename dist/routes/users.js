@@ -27,17 +27,18 @@ exports.userRouter = void 0;
 const express_1 = require("express");
 const auth_1 = require("../middlewares/auth");
 const userController = __importStar(require("../controllers/user.controller"));
+const verifyRoles_1 = require("../middlewares/verifyRoles");
 const userRouter = (0, express_1.Router)();
 exports.userRouter = userRouter;
 // @route GET api/users/list
 // @desc Get list of users
 // @access private
-userRouter.post("/list", auth_1.isAuthenticated, userController.getUsersList);
+userRouter.get("/list", auth_1.isAuthenticated, (0, verifyRoles_1.verifyRoles)(["User", "Editor", "Admin"]), userController.getUsersList);
 // @route POST api/users/login
 // @desc Get authenticated user
 // @access pubic
-userRouter.post("/me", auth_1.isAuthenticated, userController.getAuthenticatedUser);
+userRouter.get("/me", auth_1.isAuthenticated, userController.getAuthenticatedUser);
 // @route POST api/users/refresh
 // @desc Get user by id
 // @access private
-userRouter.post("/:id", auth_1.isAuthenticated, userController.getUserById);
+userRouter.get("/:id", auth_1.isAuthenticated, userController.getUserById);

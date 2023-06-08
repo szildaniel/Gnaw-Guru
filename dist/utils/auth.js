@@ -16,9 +16,10 @@ exports.clearTokens = exports.generateJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const users_model_1 = __importDefault(require("../models/users.model"));
 const dev = process.env.NODE_ENV === "development";
-const generateJWT = (userId, secret, expirationTime) => {
+const generateJWT = (userId, secret, expirationTime, roles) => {
     return jsonwebtoken_1.default.sign({
         userId,
+        roles,
     }, secret, { expiresIn: expirationTime });
 };
 exports.generateJWT = generateJWT;

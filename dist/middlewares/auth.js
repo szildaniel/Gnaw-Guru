@@ -30,7 +30,7 @@ const generateAuthToken = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         const user = yield users_model_1.default.findOne({ email: email });
         if (user) {
             const refreshToken = (0, auth_1.generateJWT)(user._id.toString(), refreshSecretKey, refreshTokenLife);
-            const accessToken = (0, auth_1.generateJWT)(user._id.toString(), accessSecretKey, accessTokenLife);
+            const accessToken = (0, auth_1.generateJWT)(user._id.toString(), accessSecretKey, accessTokenLife, user.roles);
             const token = {
                 refreshToken,
                 expirationTime: new Date(Date.now() + (0, ms_1.default)(refreshTokenLife)),
@@ -82,14 +82,18 @@ const isAuthenticated = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
             const error = http_errors_1.default.Unauthorized();
             throw next(error);
         }
-        const decodedId = decodedToken._id;
-        const user = users_model_1.default.find({ _id: decodedId });
+        const decodedId = decodedToken.userId;
+        const user = yield users_model_1.default.findOne({ _id: decodedId });
         if (!user) {
             const error = http_errors_1.default.Unauthorized();
-            throw error;
+            return next(error);
         }
-        next();
+        req.userId = user._id.toString();
+        req.roles = user.roles;
+        return next();
     }
-    catch (error) { }
+    catch (error) {
+        next(error);
+    }
 });
 exports.isAuthenticated = isAuthenticated;

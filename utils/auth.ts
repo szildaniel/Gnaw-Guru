@@ -3,10 +3,17 @@ import { NextFunction, Request, Response } from "express";
 import UserModel from "../models/users.model";
 
 const dev = process.env.NODE_ENV === "development";
-export const generateJWT = (userId: string, secret: Secret, expirationTime: string) => {
+export const generateJWT = (
+  userId: string,
+  secret: Secret,
+  expirationTime: string,
+
+  roles?: number[]
+) => {
   return jwt.sign(
     {
       userId,
+      roles,
     },
     secret,
     { expiresIn: expirationTime }
