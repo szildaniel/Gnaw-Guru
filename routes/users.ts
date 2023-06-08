@@ -9,16 +9,11 @@ const userRouter = Router();
 // @desc Get list of users
 // @access private
 
-userRouter.get(
-  "/list",
-  isAuthenticated as any,
-  verifyRoles(["User", "Editor", "Admin"]) as any,
-  userController.getUsersList
-);
+userRouter.get("/list", isAuthenticated as any, userController.getUsersList);
 
 // @route POST api/users/login
 // @desc Get authenticated user
-// @access pubic
+// @access private
 
 userRouter.get("/me", isAuthenticated as any, userController.getAuthenticatedUser);
 
