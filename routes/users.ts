@@ -9,18 +9,18 @@ const userRouter = Router();
 // @desc Get list of users
 // @access private
 
-userRouter.get("/list", isAuthenticated as any, userController.getUsersList);
+userRouter.get("/list", isAuthenticated, userController.getUsersList);
 
 // @route POST api/users/login
 // @desc Get authenticated user
 // @access private
 
-userRouter.get("/me", isAuthenticated as any, userController.getAuthenticatedUser);
+userRouter.get("/me", isAuthenticated, userController.getAuthenticatedUser);
 
 // @route POST api/users/refresh
 // @desc Get user by id
 // @access private
 
-userRouter.get("/:id", isAuthenticated as any, userController.getUserById);
+userRouter.get("/:id", isAuthenticated, userController.getUserById);
 
 export { userRouter };

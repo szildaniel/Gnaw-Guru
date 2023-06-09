@@ -6,6 +6,16 @@ import { authRouter } from "./routes/auth";
 import { userRouter } from "./routes/users";
 
 const app: Express = express();
+
+declare global {
+  namespace Express {
+    interface Request extends Document {
+      userId: string;
+      roles: number[];
+    }
+  }
+}
+
 connectDB();
 const cookiesSecret: string = config.get("COOKIES_SECRET");
 app.use(express.json());

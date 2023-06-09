@@ -1,11 +1,10 @@
 import jwt, { Secret } from "jsonwebtoken";
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import { Request, Response, NextFunction } from "express";
 import config from "config";
 import UserModel from "../models/users.model";
 import { generateJWT } from "../utils/auth";
 import ms from "ms";
 import createHttpError from "http-errors";
-import { Types } from "mongoose";
 
 const dev = process.env.NODE_ENV === "development";
 const refreshTokenLife: string = config.get("REFRESH_TOKEN_LIFE");
@@ -73,18 +72,11 @@ export const generateAuthToken = async (req: Request, res: Response, next: NextF
     return next(error);
   }
 };
-export interface RequestWithRoles extends Request {
-  userId: Types.ObjectId;
-  roles: number[];
-}
-type MiddlewareFunction = (
-  req: RequestWithRoles,
-  res: Response,
-  next: NextFunction
-) => Promise<void>;
+
+type MiddlewareFunction = (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
 export const isAuthenticated: MiddlewareFunction = async (
-  req: RequestWithRoles,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

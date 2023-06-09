@@ -21,7 +21,21 @@ function getUsersList(req, res, next) {
     });
 }
 exports.getUsersList = getUsersList;
-function getAuthenticatedUser() { }
+function getAuthenticatedUser(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { userId } = req;
+            const user = yield users_model_1.default.findById({ _id: userId }).select("-password").lean();
+            if (!user) {
+                return res.status(401).json({ error: "Authentication Failed." });
+            }
+            return res.status(200).json({ data: user });
+        }
+        catch (error) {
+            return next(error);
+        }
+    });
+}
 exports.getAuthenticatedUser = getAuthenticatedUser;
 function getUserById() { }
 exports.getUserById = getUserById;
