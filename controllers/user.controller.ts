@@ -19,4 +19,16 @@ export async function getAuthenticatedUser(req: Request, res: Response, next: Ne
   }
 }
 
-export function getUserById() {}
+export async function getUserById(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { id } = req.params;
+
+    const user = await UserModel.findById({ _id: id }).select("-password").lean();
+    if (!user) {
+      return res.status(401).json({ error: "Authentication Failed." });
+    }
+    return res.status(200).json({ data: user });
+  } catch (error) {
+    return next(error);
+  }
+}

@@ -11,13 +11,13 @@ const userRouter = Router();
 
 userRouter.get("/list", isAuthenticated, userController.getUsersList);
 
-// @route POST api/users/login
+// @route POST api/users/me
 // @desc Get authenticated user
 // @access private
 
 userRouter.get("/me", isAuthenticated, userController.getAuthenticatedUser);
 
-// @route POST api/users/refresh
+// @route POST api/users/:id
 // @desc Get user by id
 // @access private
 

@@ -37,5 +37,19 @@ function getAuthenticatedUser(req, res, next) {
     });
 }
 exports.getAuthenticatedUser = getAuthenticatedUser;
-function getUserById() { }
+function getUserById(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { id } = req.params;
+            const user = yield users_model_1.default.findById({ _id: id }).select("-password").lean();
+            if (!user) {
+                return res.status(401).json({ error: "Authentication Failed." });
+            }
+            return res.status(200).json({ data: user });
+        }
+        catch (error) {
+            return next(error);
+        }
+    });
+}
 exports.getUserById = getUserById;
