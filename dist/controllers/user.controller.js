@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserById = exports.getAuthenticatedUser = exports.getUsersList = void 0;
 const users_model_1 = __importDefault(require("../models/users.model"));
+const mongoose_1 = __importDefault(require("mongoose"));
 function getUsersList(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         const allUsers = yield users_model_1.default.find({}).select("-password");
@@ -41,6 +42,10 @@ function getUserById(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { id } = req.params;
+            const isValid = mongoose_1.default.Types.ObjectId.isValid(id);
+            if (!isValid) {
+                return res.status(401).json({ error: "Authentication Failed." });
+            }
             const user = yield users_model_1.default.findById({ _id: id }).select("-password").lean();
             if (!user) {
                 return res.status(401).json({ error: "Authentication Failed." });

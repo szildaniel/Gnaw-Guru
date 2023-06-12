@@ -9,6 +9,7 @@ const config_1 = __importDefault(require("config"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const auth_1 = require("./routes/auth");
 const users_1 = require("./routes/users");
+const reports_1 = require("./routes/reports");
 const app = (0, express_1.default)();
 (0, db_1.connectDB)();
 const cookiesSecret = config_1.default.get("COOKIES_SECRET");
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api", auth_1.authRouter);
 app.use("/api/users", users_1.userRouter);
+app.use("/api/tooth-report", reports_1.toothReportRouter);
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

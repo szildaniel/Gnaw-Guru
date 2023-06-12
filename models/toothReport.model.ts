@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { check, body, oneOf } from "express-validator";
 
 type TToothCondition = "healthy" | "caries" | "filling" | "chipped" | "missing";
 

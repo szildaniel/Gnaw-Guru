@@ -1,0 +1,38 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.toothReportCustomValidation = void 0;
+const express_validator_1 = require("express-validator");
+exports.toothReportCustomValidation = [
+    (0, express_validator_1.check)("upperJaw.leftSide.centralIncisor").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.leftSide.lateralIncisor").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.leftSide.canine").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.leftSide.firstPremolar").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.leftSide.secondPremolar").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.leftSide.firstMolar").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.leftSide.secondMolar").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.leftSide.wisdomTooth").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.rightSide.centralIncisor").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.rightSide.lateralIncisor").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.rightSide.canine").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.rightSide.firstPremolar").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.rightSide.secondPremolar").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.rightSide.firstMolar").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.rightSide.secondMolar").notEmpty().isString(),
+    (0, express_validator_1.check)("upperJaw.rightSide.wisdomTooth").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.leftSide.centralIncisor").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.leftSide.lateralIncisor").notEmpty(),
+    (0, express_validator_1.check)("lowerJaw.leftSide.canine").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.leftSide.firstPremolar").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.leftSide.secondPremolar").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.leftSide.firstMolar").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.leftSide.secondMolar").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.leftSide.wisdomTooth").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.rightSide.centralIncisor").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.rightSide.lateralIncisor").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.rightSide.canine").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.rightSide.firstPremolar").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.rightSide.secondPremolar").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.rightSide.firstMolar").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.rightSide.secondMolar").notEmpty().isString(),
+    (0, express_validator_1.check)("lowerJaw.rightSide.wisdomTooth").notEmpty().isString(),
+];
