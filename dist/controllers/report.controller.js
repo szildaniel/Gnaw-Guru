@@ -37,9 +37,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateReportByUserId = exports.updateReportById = exports.updateMyReport = exports.createReport = void 0;
 const toothReport_model_1 = __importDefault(require("../models/toothReport.model"));
+const users_model_1 = __importDefault(require("../models/users.model"));
 const express_validator_1 = require("express-validator");
 const toothReportService = __importStar(require("../services/report.services"));
-const users_model_1 = __importDefault(require("../models/users.model"));
 const mongoose_1 = __importDefault(require("mongoose"));
 function createReport(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -63,7 +63,7 @@ function createReport(req, res) {
             res.status(200).json({ msg: "ToothReport added correctly.", data: newReport });
         }
         catch (error) {
-            return res.status(400).json({ msg: "Bad request!" });
+            res.status(500).json({ error: "Internal server error" });
         }
     });
 }
@@ -87,7 +87,7 @@ function updateMyReport(req, res) {
             return res.status(200).json({ msg: "User tooth report updated", data: newReport });
         }
         catch (error) {
-            return res.status(400).json({ error: "Bad request." });
+            res.status(500).json({ error: "Internal server error" });
         }
     });
 }
@@ -115,7 +115,7 @@ function updateReportById(req, res) {
             res.status(200).json({ msg: "Tooth Report Updated", data: newReport });
         }
         catch (error) {
-            return res.status(400).json({ error: "Bad request." });
+            res.status(500).json({ error: "Internal server error" });
         }
     });
 }
@@ -130,19 +130,25 @@ function updateReportByUserId(req, res) {
         }
         const { userId } = req.params;
         try {
-            const isValid = mongoose_1.default.Types.ObjectId.isValid(userId);
-            if (!isValid) {
-                return res.status(422).json({ error: "Tooth report for that user not exist. noot valid" });
+            if (!mongoose_1.default.Types.ObjectId.isValid(userId)) {
+                return res.status(400).json({ error: "Invalid userId" });
+            }
+            const foundUser = yield users_model_1.default.findById({ _id: userId });
+            if (!foundUser) {
+                return res.status(404).json({ error: "User with this ID not exist." });
             }
             const foundReport = yield toothReport_model_1.default.findOne({ user: userId });
             if (!foundReport) {
-                return res.status(422).json({ error: "Tooth report for that user not exist." });
+                return res.status(404).json({ error: "Tooth report for that user not exist." });
             }
             const newReport = Object.assign({}, req.body);
             toothReportService.update(newReport, foundReport._id);
             res.status(200).json({ msg: "Tooth Report Updated", data: newReport });
         }
-        catch (error) { }
+        catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Internal server error" });
+        }
     });
 }
 exports.updateReportByUserId = updateReportByUserId;

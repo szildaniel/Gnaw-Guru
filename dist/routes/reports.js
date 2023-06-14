@@ -46,4 +46,4 @@ toothReportRouter.put("/:reportId", auth_1.isAuthenticated, (0, verifyRoles_1.ve
 // @route PUT api/tooth-report/:userIdd
 // @desc Update  tooth report by user id
 // @access private and only editor role
-toothReportRouter.put("/:userId", auth_1.isAuthenticated, (0, verifyRoles_1.verifyRoles)(["Editor"]), validationHelper_1.toothReportCustomValidation, reportController.updateReportByUserId);
+toothReportRouter.put("/update-user-report/:userId", auth_1.isAuthenticated, (0, verifyRoles_1.verifyRoles)(["Editor"]), validationHelper_1.toothReportCustomValidation, reportController.updateReportByUserId);

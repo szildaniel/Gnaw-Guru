@@ -45,7 +45,7 @@ toothReportRouter.put(
 // @access private and only editor role
 
 toothReportRouter.put(
-  "/:userId",
+  "/update-user-report/:userId",
   isAuthenticated,
   verifyRoles(["Editor"]),
   toothReportCustomValidation,

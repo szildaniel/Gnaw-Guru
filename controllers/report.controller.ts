@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import ToothReportModel from "../models/toothReport.model";
+import UserModel from "../models/users.model";
 import { validationResult } from "express-validator";
 import * as toothReportService from "../services/report.services";
 import { IToothReport } from "../models/toothReport.model";
-import UserModel from "../models/users.model";
 import mongoose from "mongoose";
 
 export async function createReport(req: Request, res: Response) {
@@ -33,7 +33,7 @@ export async function createReport(req: Request, res: Response) {
     toothReportService.create(newReport);
     res.status(200).json({ msg: "ToothReport added correctly.", data: newReport });
   } catch (error) {
-    return res.status(400).json({ msg: "Bad request!" });
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
@@ -57,7 +57,7 @@ export async function updateMyReport(req: Request, res: Response) {
     const updateUserReport = await toothReportService.updateByUserId(newReport, userId);
     return res.status(200).json({ msg: "User tooth report updated", data: newReport });
   } catch (error) {
-    return res.status(400).json({ error: "Bad request." });
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
@@ -85,7 +85,7 @@ export async function updateReportById(req: Request, res: Response) {
     toothReportService.update(newReport, reportId);
     res.status(200).json({ msg: "Tooth Report Updated", data: newReport });
   } catch (error) {
-    return res.status(400).json({ error: "Bad request." });
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
@@ -100,20 +100,26 @@ export async function updateReportByUserId(req: Request, res: Response) {
   const { userId } = req.params;
 
   try {
-    const isValid = mongoose.Types.ObjectId.isValid(userId);
-
-    if (!isValid) {
-      return res.status(422).json({ error: "Tooth report for that user not exist. noot valid" });
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ error: "Invalid userId" });
     }
-    const foundReport = await ToothReportModel.findOne({ user: userId });
 
+    const foundUser = await UserModel.findById({ _id: userId });
+    if (!foundUser) {
+      return res.status(404).json({ error: "User with this ID not exist." });
+    }
+
+    const foundReport = await ToothReportModel.findOne({ user: userId });
     if (!foundReport) {
-      return res.status(422).json({ error: "Tooth report for that user not exist." });
+      return res.status(404).json({ error: "Tooth report for that user not exist." });
     }
 
     const newReport = { ...req.body };
     toothReportService.update(newReport, foundReport._id);
 
     res.status(200).json({ msg: "Tooth Report Updated", data: newReport });
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 }
