@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { authRouter } from "./routes/auth";
 import { userRouter } from "./routes/users";
 import { toothReportRouter } from "./routes/reports";
+import errorHandler from "./middlewares/errorHandler";
 
 const app: Express = express();
 
@@ -29,7 +30,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/tooth-report", toothReportRouter);
-
+app.use(errorHandler);
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
