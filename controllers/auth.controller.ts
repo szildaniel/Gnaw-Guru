@@ -5,8 +5,8 @@ import { validationResult } from "express-validator";
 import { clearTokens, generateJWT } from "../utils/auth";
 import config from "config";
 import ms from "ms";
-import createHttpError from "http-errors";
 import jwt, { Secret } from "jsonwebtoken";
+import { CustomError } from "../models/customError.model";
 
 export interface IDecodedRefreshToken {
   userId: string;
@@ -83,8 +83,8 @@ export async function refreshOne(req: Request, res: Response, next: NextFunction
 
     if (!userWithRefreshToken) {
       await clearTokens(req, res, next);
-      const error = createHttpError.Unauthorized();
-      throw error;
+
+      throw new CustomError("No authorized.", 401);
     }
 
     try {
@@ -93,10 +93,8 @@ export async function refreshOne(req: Request, res: Response, next: NextFunction
       const user = await UserModel.findOne({ _id: decodedId });
 
       if (!user) {
-        console.log("there is no user");
         await clearTokens(req, res);
-        const error = createHttpError(401, "Invalid credentials");
-        throw error;
+        throw new CustomError("Not found user with that token.", 404);
       }
 
       const accessToken = generateJWT(user.id, secretAccessKey, accessTokenLife, user.roles);

@@ -18,7 +18,7 @@ const config_1 = __importDefault(require("config"));
 const users_model_1 = __importDefault(require("../models/users.model"));
 const auth_1 = require("../utils/auth");
 const ms_1 = __importDefault(require("ms"));
-const http_errors_1 = __importDefault(require("http-errors"));
+const customError_model_1 = require("../models/customError.model");
 const dev = process.env.NODE_ENV === "development";
 const refreshTokenLife = config_1.default.get("REFRESH_TOKEN_LIFE");
 const refreshSecretKey = config_1.default.get("SECRET_REFRESH_KEY");
@@ -65,28 +65,24 @@ const isAuthenticated = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     try {
         const token = (_a = req.header("Authorization")) === null || _a === void 0 ? void 0 : _a.replace("Bearer ", "");
         if (!token) {
-            const error = http_errors_1.default.Unauthorized();
-            throw error;
+            throw new customError_model_1.CustomError("Not authorized.", 401);
         }
         const { signedCookies = {} } = req;
         const { refreshToken } = signedCookies;
         if (!refreshToken) {
-            const error = http_errors_1.default.Unauthorized();
-            throw error;
+            throw new customError_model_1.CustomError("Not authorized.", 401);
         }
         let decodedToken;
         try {
             decodedToken = jsonwebtoken_1.default.verify(token, accessSecretKey);
         }
         catch (err) {
-            const error = http_errors_1.default.Unauthorized();
-            throw next(error);
+            throw new customError_model_1.CustomError("Not authorized.", 401);
         }
         const decodedId = decodedToken.userId;
         const user = yield users_model_1.default.findOne({ _id: decodedId });
         if (!user) {
-            const error = http_errors_1.default.Unauthorized();
-            return next(error);
+            throw new customError_model_1.CustomError("Not authorized.", 401);
         }
         req.userId = user._id.toString();
         req.roles = user.roles;

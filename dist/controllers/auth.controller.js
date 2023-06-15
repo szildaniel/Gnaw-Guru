@@ -42,8 +42,8 @@ const express_validator_1 = require("express-validator");
 const auth_1 = require("../utils/auth");
 const config_1 = __importDefault(require("config"));
 const ms_1 = __importDefault(require("ms"));
-const http_errors_1 = __importDefault(require("http-errors"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const customError_model_1 = require("../models/customError.model");
 function registerOne(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         const errors = (0, express_validator_1.validationResult)(req);
@@ -113,18 +113,15 @@ function refreshOne(req, res, next) {
             });
             if (!userWithRefreshToken) {
                 yield (0, auth_1.clearTokens)(req, res, next);
-                const error = http_errors_1.default.Unauthorized();
-                throw error;
+                throw new customError_model_1.CustomError("No authorized.", 401);
             }
             try {
                 const decodedToken = jsonwebtoken_1.default.verify(refreshToken, secretRefreshKey);
                 const decodedId = decodedToken.userId;
                 const user = yield users_model_1.default.findOne({ _id: decodedId });
                 if (!user) {
-                    console.log("there is no user");
                     yield (0, auth_1.clearTokens)(req, res);
-                    const error = (0, http_errors_1.default)(401, "Invalid credentials");
-                    throw error;
+                    throw new customError_model_1.CustomError("Not found user with that token.", 404);
                 }
                 const accessToken = (0, auth_1.generateJWT)(user.id, secretAccessKey, accessTokenLife, user.roles);
                 res.status(200).json({

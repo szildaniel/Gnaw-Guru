@@ -4,7 +4,7 @@ import config from "config";
 import UserModel from "../models/users.model";
 import { generateJWT } from "../utils/auth";
 import ms from "ms";
-import createHttpError from "http-errors";
+import { CustomError } from "../models/customError.model";
 
 const dev = process.env.NODE_ENV === "development";
 const refreshTokenLife: string = config.get("REFRESH_TOKEN_LIFE");
@@ -84,31 +84,27 @@ export const isAuthenticated: MiddlewareFunction = async (
     const token = req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
-      const error = createHttpError.Unauthorized();
-      throw error;
+      throw new CustomError("Not authorized.", 401);
     }
 
     const { signedCookies = {} } = req;
 
     const { refreshToken } = signedCookies;
     if (!refreshToken) {
-      const error = createHttpError.Unauthorized();
-      throw error;
+      throw new CustomError("Not authorized.", 401);
     }
     let decodedToken;
 
     try {
       decodedToken = <IDecodedToken2>jwt.verify(token, accessSecretKey);
     } catch (err) {
-      const error = createHttpError.Unauthorized();
-      throw next(error);
+      throw new CustomError("Not authorized.", 401);
     }
 
     const decodedId = decodedToken.userId;
     const user = await UserModel.findOne({ _id: decodedId });
     if (!user) {
-      const error = createHttpError.Unauthorized();
-      return next(error);
+      throw new CustomError("Not authorized.", 401);
     }
     req.userId = user._id.toString();
     req.roles = user.roles;

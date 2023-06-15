@@ -33,11 +33,15 @@ exports.userRouter = userRouter;
 // @desc Get list of users
 // @access private
 userRouter.get("/list", auth_1.isAuthenticated, userController.getUsersList);
-// @route POST api/users/me
+// @route GET api/users/me
 // @desc Get authenticated user
 // @access private
 userRouter.get("/me", auth_1.isAuthenticated, userController.getAuthenticatedUser);
-// @route POST api/users/:id
+// @route GET api/users/doctors
+// @desc Get user by id
+// @access private
+userRouter.get("/doctors", auth_1.isAuthenticated, userController.getDoctors);
+// @route GET api/users/:id
 // @desc Get user by id
 // @access private
 userRouter.get("/:id", auth_1.isAuthenticated, userController.getUserById);

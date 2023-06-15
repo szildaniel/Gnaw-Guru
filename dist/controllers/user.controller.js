@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserById = exports.getAuthenticatedUser = exports.getUsersList = void 0;
+exports.getDoctors = exports.getUserById = exports.getAuthenticatedUser = exports.getUsersList = void 0;
 const users_model_1 = __importDefault(require("../models/users.model"));
 const mongoose_1 = __importDefault(require("mongoose"));
 function getUsersList(req, res, next) {
@@ -58,3 +58,18 @@ function getUserById(req, res, next) {
     });
 }
 exports.getUserById = getUserById;
+function getDoctors(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const doctors = yield users_model_1.default.find({ roles: 1984 });
+            if (!doctors) {
+                return res.status(400).json({ msg: "Can't find doctors!" });
+            }
+            return res.status(200).json({ data: doctors });
+        }
+        catch (error) {
+            return next(error);
+        }
+    });
+}
+exports.getDoctors = getDoctors;
