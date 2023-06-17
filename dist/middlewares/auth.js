@@ -70,7 +70,7 @@ const isAuthenticated = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         const { signedCookies = {} } = req;
         const { refreshToken } = signedCookies;
         if (!refreshToken) {
-            throw new customError_model_1.CustomError("Not authorized.", 401);
+            throw new customError_model_1.CustomError("Not authorized. Signed cookies not found", 401);
         }
         let decodedToken;
         try {

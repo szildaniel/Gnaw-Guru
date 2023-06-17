@@ -91,7 +91,7 @@ export const isAuthenticated: MiddlewareFunction = async (
 
     const { refreshToken } = signedCookies;
     if (!refreshToken) {
-      throw new CustomError("Not authorized.", 401);
+      throw new CustomError("Not authorized. Signed cookies not found", 401);
     }
     let decodedToken;
 
