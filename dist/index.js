@@ -11,11 +11,15 @@ const auth_1 = require("./routes/auth");
 const users_1 = require("./routes/users");
 const reports_1 = require("./routes/reports");
 const errorHandler_1 = __importDefault(require("./middlewares/errorHandler"));
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 (0, db_1.connectDB)();
 const cookiesSecret = config_1.default.get("COOKIES_SECRET");
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)(cookiesSecret));
+app.use((0, cors_1.default)({
+    origin: "http://localhost:3000",
+}));
 const port = config_1.default.get("PORT");
 app.get("/", (req, res) => {
     res.send("Express TypeScript here");

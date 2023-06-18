@@ -45,7 +45,6 @@ const generateAuthToken = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             });
             const expiresAt = new Date(Date.now() + (0, ms_1.default)(accessTokenLife));
             return res.status(200).json({
-                user,
                 token: accessToken,
                 expiresAt,
             });

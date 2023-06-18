@@ -6,7 +6,7 @@ import { authRouter } from "./routes/auth";
 import { userRouter } from "./routes/users";
 import { toothReportRouter } from "./routes/reports";
 import errorHandler from "./middlewares/errorHandler";
-
+import cors from "cors";
 const app: Express = express();
 
 declare global {
@@ -22,6 +22,11 @@ connectDB();
 const cookiesSecret: string = config.get("COOKIES_SECRET");
 app.use(express.json());
 app.use(cookieParser(cookiesSecret));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 const port: string = config.get("PORT");
 
 app.get("/", (req: Request, res: Response) => {
