@@ -15,6 +15,7 @@ Gnaw Guru is an extraordinary tool created for dentists to assist in the initial
 ## Frontend checklist / views
 
 - [ ] Sign up & Login
+- [ ] Github Authentication
 - [ ] User Dashboard
 - [ ] Dentist Dashboard
 - [ ] Interactive Survey
