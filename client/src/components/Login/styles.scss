@@ -1,0 +1,10 @@
+.login__container {
+  display: flex;
+  flex-direction: column;
+  > input {
+    max-width: 150px;
+  }
+  > button {
+    max-width: 150px;
+  }
+}

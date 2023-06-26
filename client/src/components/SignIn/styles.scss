@@ -1,0 +1,113 @@
+.sign-in-page__container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 800px;
+  width: 800px;
+  display: flex;
+  border-radius: 15px;
+  background: white;
+}
+
+.sign-in-hero {
+  &__container {
+    width: 40%;
+    background: rgb(31, 0, 83);
+    height: 620px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-left: 8px;
+    color: white;
+    border-radius: 15px;
+    padding: 40px 27px 27px;
+    display: flex;
+    flex-direction: column;
+  }
+  &__heading {
+    margin-top: 60px;
+  }
+  &__text {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: rgb(212, 212, 212);
+  }
+  &__slides {
+    margin-top: auto;
+    border-radius: 15px;
+    background: rgb(43, 5, 109);
+    padding: 17px 10px;
+  }
+  &__slide {
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+    &.active {
+      opacity: 1;
+      visibility: visible;
+      display: block;
+    }
+    &-author {
+      color: rgb(212, 212, 212);
+      font-weight: 600;
+      margin-left: 12px;
+      font-size: 0.9rem;
+    }
+    &-text {
+      color: rgb(212, 212, 212);
+      font-size: 0.85rem;
+    }
+  }
+  &__img-container {
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  &__person {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__pagination {
+    display: flex;
+    margin-top: 15px;
+    justify-content: center;
+  }
+}
+
+.dot {
+  cursor: pointer;
+  margin-right: 3px;
+  transition: all 0.25s ease-out;
+  padding: 7px;
+  position: relative;
+  &::after {
+    border-radius: 50%;
+    content: "";
+    background-color: rgb(146, 146, 146);
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &:last-of-type {
+    margin-right: 0;
+  }
+  &.active {
+    &::after {
+      background-color: white;
+      transition: all 0.25s ease-out;
+    }
+  }
+}
+
+.sign-in-forms__container {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,54 +1,40 @@
 "use client";
-import axios from "axios";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import React, { useState } from "react";
+import { signIn } from "next-auth/react";
+import "./styles.scss";
 
-type TFormInputs = {
-  email: string;
-  password: string;
-};
+const LoginForm = () => {
+  const [emailInput, setEmailInput] = useState<undefined | string>();
+  const [passwordInput, setPasswordInput] = useState<undefined | string>();
 
-const loginUser = async (data: TFormInputs) => {
-  const response = await axios.post("http://localhost:8000/api/login", data);
-  return response.data;
-};
-
-const LoginForm = ({
-  setIsLoggedIn,
-}: {
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<TFormInputs>();
-
-  const queryClient = useQueryClient();
-
-  const { mutate, isLoading } = useMutation(loginUser, {
-    onSuccess: (data) => {
-      setIsLoggedIn(true);
-    },
-    onError: () => {
-      setIsLoggedIn(false);
-      alert("there was an error");
-    },
-  });
-  const formSubmit = async (data: TFormInputs) => {
-    const user = { ...data };
-    mutate(user);
+  const onSubmit = async () => {
+    const result = await signIn("credentials", {
+      email: emailInput,
+      password: passwordInput,
+      redirect: true,
+      callbackUrl: "/",
+    });
   };
 
   return (
-    <form onSubmit={handleSubmit(formSubmit)}>
-      <input defaultValue="email" {...register("email", { required: true })} />
-      {errors.email && <span>This field is required</span>}
-      <input defaultValue="password" {...register("password", { required: true })} />
-      {errors.password && <span>This field is required</span>}
-      <input type="submit" />
-    </form>
+    <div className="login__container">
+      <input
+        type="text"
+        placeholder="Email"
+        onChange={(e) => {
+          setEmailInput(e.target.value);
+        }}
+      />
+      <input
+        type="text"
+        placeholder="Password"
+        onChange={(e) => {
+          setPasswordInput(e.target.value);
+        }}
+      />
+
+      <button onClick={onSubmit}>Login</button>
+    </div>
   );
 };
 

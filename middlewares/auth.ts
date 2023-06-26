@@ -60,8 +60,9 @@ export const generateAuthToken = async (req: Request, res: Response, next: NextF
       const expiresAt = new Date(Date.now() + ms(accessTokenLife));
 
       return res.status(200).json({
-        token: accessToken,
+        name: user.name,
         expiresAt,
+        token: accessToken,
       });
     } else {
       console.log("User does not exist");
