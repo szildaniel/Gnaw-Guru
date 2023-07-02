@@ -36,22 +36,15 @@ const generateAuthToken = (req, res, next) => __awaiter(void 0, void 0, void 0, 
                 expirationTime: new Date(Date.now() + (0, ms_1.default)(refreshTokenLife)),
             };
             const updatedUser = yield users_model_1.default.findOneAndUpdate({ _id: user._id }, { refreshToken: token });
-            res.cookie("refreshToken", refreshToken, {
-                httpOnly: true,
-                // secure: !dev,
-                secure: false,
-                signed: true,
-                expires: new Date(Date.now() + (0, ms_1.default)(refreshTokenLife)),
-            });
             const expiresAt = new Date(Date.now() + (0, ms_1.default)(accessTokenLife));
             return res.status(200).json({
                 name: user.name,
                 expiresAt,
-                token: accessToken,
+                accessToken: accessToken,
+                refreshToken: token,
             });
         }
         else {
-            console.log("User does not exist");
             return res.status(404).json({ message: "User not found" });
         }
     }
@@ -63,18 +56,13 @@ exports.generateAuthToken = generateAuthToken;
 const isAuthenticated = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        const token = (_a = req.header("Authorization")) === null || _a === void 0 ? void 0 : _a.replace("Bearer ", "");
-        if (!token) {
+        const accessToken = (_a = req.header("Authorization")) === null || _a === void 0 ? void 0 : _a.replace("Bearer ", "");
+        if (!accessToken) {
             throw new customError_model_1.CustomError("Not authorized.", 401);
-        }
-        const { signedCookies = {} } = req;
-        const { refreshToken } = signedCookies;
-        if (!refreshToken) {
-            throw new customError_model_1.CustomError("Not authorized. Signed cookies not found", 401);
         }
         let decodedToken;
         try {
-            decodedToken = jsonwebtoken_1.default.verify(token, accessSecretKey);
+            decodedToken = jsonwebtoken_1.default.verify(accessToken, accessSecretKey);
         }
         catch (err) {
             throw new customError_model_1.CustomError("Not authorized.", 401);

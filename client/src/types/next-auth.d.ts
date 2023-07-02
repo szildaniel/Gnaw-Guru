@@ -1,3 +1,4 @@
+import { Date } from "mongoose";
 import NextAuth from "next-auth";
 
 declare module "next-auth" {
@@ -5,7 +6,11 @@ declare module "next-auth" {
     user: {
       name: string;
       expiresAt: string;
-      token: string;
+      accessToken: string;
+      refreshToken: {
+        refreshToken: string;
+        expirationTime: Date;
+      };
       error?: string;
       errors?: [string];
     };

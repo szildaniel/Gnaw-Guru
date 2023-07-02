@@ -1,9 +1,8 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import NextAuth from "next-auth";
-import type { NextAuthOptions } from "next-auth";
-import { User } from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
+import axios from "../../../lib/axios";
 
-export const authOptions: NextAuthOptions = {
+export const authOptions: AuthOptions = {
   // Configure one or more authentication providers
   providers: [
     // ...add more providers here
@@ -25,24 +24,15 @@ export const authOptions: NextAuthOptions = {
           type: "password",
         },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const { email, password } = credentials as any;
-        const res = await fetch("http://localhost:8000/api/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
+        const res = await axios.post("/api/login", {
+          email,
+          password,
         });
+        const user = await res.data;
 
-        const user = await res.json();
-
-        console.log({ user });
-
-        if (res.ok && user) {
+        if (user) {
           return user;
         } else return null;
       },
@@ -50,7 +40,7 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       return { ...token, ...user };
     },
     async session({ session, token, user }) {
@@ -59,6 +49,9 @@ export const authOptions: NextAuthOptions = {
 
       return session;
     },
+  },
+  pages: {
+    signIn: "/auth/signIn",
   },
 };
 

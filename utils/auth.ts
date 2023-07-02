@@ -21,8 +21,7 @@ export const generateJWT = (
 };
 
 export const clearTokens = async (req: Request, res: Response, next?: NextFunction) => {
-  const { signedCookies = {} } = req;
-  const { refreshToken } = signedCookies;
+  const { refreshToken } = req.body;
 
   if (refreshToken) {
     const user = await UserModel.findOneAndUpdate(
@@ -32,10 +31,4 @@ export const clearTokens = async (req: Request, res: Response, next?: NextFuncti
       { $unset: { refreshToken: 1 } }
     );
   }
-  res.clearCookie("refreshToken", {
-    httpOnly: true,
-    // secure: !dev,
-    secure: false,
-    signed: true,
-  });
 };

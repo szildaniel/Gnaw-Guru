@@ -49,23 +49,15 @@ export const generateAuthToken = async (req: Request, res: Response, next: NextF
         { refreshToken: token }
       );
 
-      res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        // secure: !dev,
-        secure: false,
-        signed: true,
-        expires: new Date(Date.now() + ms(refreshTokenLife)),
-      });
-
       const expiresAt = new Date(Date.now() + ms(accessTokenLife));
 
       return res.status(200).json({
         name: user.name,
         expiresAt,
-        token: accessToken,
+        accessToken: accessToken,
+        refreshToken: token,
       });
     } else {
-      console.log("User does not exist");
       return res.status(404).json({ message: "User not found" });
     }
   } catch (error) {
@@ -81,22 +73,16 @@ export const isAuthenticated: MiddlewareFunction = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const token = req.header("Authorization")?.replace("Bearer ", "");
+    const accessToken = req.header("Authorization")?.replace("Bearer ", "");
 
-    if (!token) {
+    if (!accessToken) {
       throw new CustomError("Not authorized.", 401);
     }
 
-    const { signedCookies = {} } = req;
-
-    const { refreshToken } = signedCookies;
-    if (!refreshToken) {
-      throw new CustomError("Not authorized. Signed cookies not found", 401);
-    }
     let decodedToken;
 
     try {
-      decodedToken = <IDecodedToken2>jwt.verify(token, accessSecretKey);
+      decodedToken = <IDecodedToken2>jwt.verify(accessToken, accessSecretKey);
     } catch (err) {
       throw new CustomError("Not authorized.", 401);
     }

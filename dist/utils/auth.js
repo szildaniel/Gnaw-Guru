@@ -24,18 +24,11 @@ const generateJWT = (userId, secret, expirationTime, roles) => {
 };
 exports.generateJWT = generateJWT;
 const clearTokens = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { signedCookies = {} } = req;
-    const { refreshToken } = signedCookies;
+    const { refreshToken } = req.body;
     if (refreshToken) {
         const user = yield users_model_1.default.findOneAndUpdate({
             "refreshToken.refreshToken": refreshToken,
         }, { $unset: { refreshToken: 1 } });
     }
-    res.clearCookie("refreshToken", {
-        httpOnly: true,
-        // secure: !dev,
-        secure: false,
-        signed: true,
-    });
 });
 exports.clearTokens = clearTokens;

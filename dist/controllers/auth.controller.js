@@ -102,8 +102,7 @@ function refreshOne(req, res, next) {
         const secretRefreshKey = config_1.default.get("SECRET_REFRESH_KEY");
         const secretAccessKey = config_1.default.get("SECRET_ACCESS_KEY");
         const accessTokenLife = config_1.default.get("ACCESS_TOKEN_LIFE");
-        const { signedCookies } = req;
-        const { refreshToken } = signedCookies;
+        const { refreshToken } = req.body;
         if (!refreshToken) {
             return res.sendStatus(204);
         }

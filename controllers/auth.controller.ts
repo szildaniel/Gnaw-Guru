@@ -70,8 +70,8 @@ export async function refreshOne(req: Request, res: Response, next: NextFunction
   const secretAccessKey: Secret = config.get("SECRET_ACCESS_KEY");
   const accessTokenLife: string = config.get("ACCESS_TOKEN_LIFE");
 
-  const { signedCookies } = req;
-  const { refreshToken } = signedCookies;
+  const { refreshToken } = req.body;
+
   if (!refreshToken) {
     return res.sendStatus(204);
   }
@@ -80,7 +80,6 @@ export async function refreshOne(req: Request, res: Response, next: NextFunction
     const userWithRefreshToken = await UserModel.findOne({
       "refreshToken.refreshToken": refreshToken,
     });
-
     if (!userWithRefreshToken) {
       await clearTokens(req, res, next);
 
