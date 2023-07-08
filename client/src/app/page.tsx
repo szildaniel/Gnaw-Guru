@@ -13,7 +13,7 @@ export default function Home() {
         <h1 className="main-heading">Gnaw Guru</h1>
         {/* <QueryClientProvider client={queryClient}> */}
         {/* </QueryClientProvider> */}
-        <Doctors />
+        {/* <Doctors /> */}
       </main>
     </>
   );

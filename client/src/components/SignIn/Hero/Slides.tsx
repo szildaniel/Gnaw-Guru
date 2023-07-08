@@ -38,13 +38,13 @@ export const Slides = () => {
               isActive={i == activeSlide}
             />
           ))}
+        <Dots>
+          {slidesContent &&
+            slidesContent.map((slide, i) => (
+              <Dot isActive={i == activeSlide} key={i} index={i} setActiveSlide={setActiveSlide} />
+            ))}
+        </Dots>
       </div>
-      <Dots>
-        {slidesContent &&
-          slidesContent.map((slide, i) => (
-            <Dot isActive={i == activeSlide} key={i} index={i} setActiveSlide={setActiveSlide} />
-          ))}
-      </Dots>
     </>
   );
 };
