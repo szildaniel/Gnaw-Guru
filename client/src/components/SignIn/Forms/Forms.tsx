@@ -2,6 +2,8 @@ import LoginForm from "@/components/Login/LoginForm";
 import { RegisterForm } from "@/components/RegisterForm/RegisterForm";
 import React, { useState } from "react";
 import { FormsSwitcher } from "./FormsSwitcher";
+import { LoginHeader } from "./LoginHeader";
+import { RegisterHeader } from './RegisterHeader';
 import "./styles.scss";
 
 export type TForms = "login" | "register";
@@ -14,7 +16,8 @@ export const Forms = () => {
     setActiveForm(formType);
   };
   return (
-    <div className="sign-in-forms__container">
+    <div className="forms__container">
+      {activeForm === "login" ? <LoginHeader /> : <RegisterHeader />}
       <FormsSwitcher switchForm={switchForm} activeForm={activeForm} />
       {activeForm === "login" ? <LoginForm /> : <RegisterForm />}
     </div>

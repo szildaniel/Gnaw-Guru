@@ -1,7 +1,10 @@
 import React from "react";
 import { TForms } from "./Forms";
-
+import { Button } from "@/components/Button/Button";
 type SwitcherFunction = (switchType: TForms) => void;
+import UserIcon from "../../../assets/icons/user-icon.svg";
+import LoginIcon from "../../../assets/icons/login-icon.svg";
+
 
 export const FormsSwitcher = ({
   switchForm,
@@ -12,18 +15,20 @@ export const FormsSwitcher = ({
 }) => {
   return (
     <div className="form-switcher__container">
-      <button
-        className={activeForm === "login" ? "form-switcher__btn active" : "form-switcher__btn"}
+      <Button
+        textCentered={false}
+        text="Login"
+        type={activeForm === "login" ? "icon-secondary" : "icon-primary"}
         onClick={() => switchForm("login")}
-      >
-        Login
-      </button>
-      <button
-        className={activeForm === "register" ? "form-switcher__btn active" : "form-switcher__btn"}
+        Icon={LoginIcon}
+      />
+      <Button
+        textCentered={false}
+        text="Sign up"
+        type={activeForm === "register" ? "icon-secondary" : "icon-primary"}
         onClick={() => switchForm("register")}
-      >
-        Register
-      </button>
+        Icon={UserIcon}
+      />
     </div>
   );
 };

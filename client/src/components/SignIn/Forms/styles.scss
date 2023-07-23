@@ -1,18 +1,35 @@
-.sign-in-forms__container {
-  background: var(--secondary-color);
-  width: 55%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  border-radius: 0 30px 30px 0;
+@import "../../../scss/global";
+
+.forms {
+  &__heading{
+    color: $text-color;
+    font-weight: 600;
+    font-size: 2rem;
+    margin-top: 90px;
+    margin-bottom: 12px;
+  }
+  &__subheading{
+    color: $text-color;
+    font-size: 1.25rem;
+    line-height: 180%;
+    margin-bottom: 40px;
+  }
+  &__container {
+    background: $secondary-color;
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: relative;
+    border-radius: 0 30px 30px 0;
+    padding-left: 15%;
+  }
 }
 
 .form-switcher {
   &__container {
-    position: absolute;
-    top: 50px;
+    position: static;
     display: flex;
     column-gap: 10px;
   }

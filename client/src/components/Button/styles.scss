@@ -1,0 +1,70 @@
+@import "../../scss/global.scss";
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 15px;
+  font-family: "Switzer", sans-serif;
+  font-size: 1.25rem;
+  line-height: 180%;
+  font-weight: 600;
+  outline: none;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-width: 260px;
+
+  &-primary {
+    background: $primary-color;
+    color: $tertiary-color;
+    transition: all 0.2s ease-out;
+    & svg path {
+      stroke: $tertiary-color;
+      transition: all 0.2s ease-out;
+    }
+    &:hover {
+      background: $tertiary-color;
+      transition: all 0.25s ease-out;
+      color: white;
+      & svg path {
+        stroke: white;
+      }
+    }
+  }
+  &-secondary {
+    background: #03a4a4;
+
+    color: white;
+    transition: all 0.2s ease-out;
+    & svg path {
+      stroke: white;
+      transition: all 0.2s ease-out;
+    }
+    &:hover {
+      background: #005e5e;
+      color: white;
+      transition: all 0.25s ease-out;
+    }
+  }
+  &-icon-secondary {
+    @extend .btn-secondary;
+    text-align: left;
+    padding-left: 25px;
+    & svg {
+      transform: translateY(2px);
+      margin-right: 15px;
+    }
+  }
+  &-icon-primary {
+    @extend .btn-primary;
+    text-align: left;
+    padding-left: 25px;
+    & svg {
+      transform: translateY(2px);
+      margin-right: 15px;
+    }
+  }
+}

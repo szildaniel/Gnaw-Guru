@@ -1,3 +1,5 @@
+@import "../../scss/global";
+
 .sign-in-page__container {
   position: absolute;
   left: 50%;
@@ -15,8 +17,8 @@
 .sign-in-hero {
   &__container {
     width: 45%;
-    background: var(--primary-color);
-    color: var(--text-color);
+    background: $primary-color;
+    color: $text-color;
     border-radius: 30px 0 0 30px;
     padding: 70px 50px 50px;
     display: flex;
@@ -45,9 +47,11 @@
     z-index: 2;
     right: -200px;
     bottom: -30px;
+    width: auto;
+    height: 660px;
   }
   &__heading {
-    color: var(--text-color);
+    color: $text-color;
     font-family: "Switzer", sans-serif;
     font-size: 3.9rem;
     font-style: normal;
@@ -59,7 +63,7 @@
   }
   &__text {
     margin-top: 38px;
-    color: var(--text-color);
+    color: $text-color;
     font-family: "Switzer", sans-serif;
 
     font-size: 1.25rem;
@@ -89,7 +93,7 @@
       display: block;
     }
     &-author {
-      color: var(--text-color);
+      color: $text-color;
       font-weight: 600;
       margin-left: 12px;
       font-size: 0.9rem;
@@ -98,7 +102,7 @@
       font-family: "Switzer", sans-serif;
       font-weight: 300;
       line-height: 180%;
-      color: var(--text-color);
+      color: $text-color;
       font-size: 1rem;
     }
   }
@@ -119,6 +123,20 @@
     position: absolute;
     right: 30px;
     bottom: 30px;
+  }
+
+  @include media("xxxl") {
+    &__slides {
+      padding: 20px 35px;
+    }
+    &__text {
+      padding-right: 150px;
+    }
+    &__circle {
+      right: -200px;
+      width: 690px;
+      height: 850px;
+    }
   }
 }
 

@@ -1,6 +1,13 @@
-.login__container {
+.login__form {
   display: flex;
   flex-direction: column;
+  > label {
+    color: #124359;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 180%; /* 36px */
+  }
   > input {
     max-width: 150px;
   }

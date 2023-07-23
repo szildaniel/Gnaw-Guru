@@ -2,39 +2,55 @@
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import "./styles.scss";
+import { useForm, Resolver } from "react-hook-form";
 
 const LoginForm = () => {
   const [emailInput, setEmailInput] = useState<undefined | string>();
   const [passwordInput, setPasswordInput] = useState<undefined | string>();
 
-  const onSubmit = async () => {
+  type FormValues = {
+    email: string;
+    password: string;
+  };
+
+  const resolver: Resolver<FormValues> = async (values) => {
+    return {
+      values: values.email ? values : {},
+      errors: !values.password
+        ? {
+            email: {
+              type: "required",
+              message: "This is required.",
+            },
+          }
+        : {},
+    };
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({ resolver });
+
+  const onSubmit = handleSubmit(async ({ email, password }) => {
     const result = await signIn("credentials", {
-      email: emailInput,
-      password: passwordInput,
+      email: email,
+      password: password,
       redirect: true,
       callbackUrl: "/",
     });
-  };
+  });
 
   return (
-    <div className="login__container">
-      <input
-        type="text"
-        placeholder="Email"
-        onChange={(e) => {
-          setEmailInput(e.target.value);
-        }}
-      />
-      <input
-        type="text"
-        placeholder="Password"
-        onChange={(e) => {
-          setPasswordInput(e.target.value);
-        }}
-      />
-
-      <button onClick={onSubmit}>Login</button>
-    </div>
+    <form onSubmit={onSubmit} className="login__form">
+      <label>Name</label>
+      <input {...register("email")} placeholder="Email" />
+      {errors?.email && <p>{errors.email.message}</p>}
+      <label>Password</label>
+      <input type="password" placeholder="Password" {...register("password")} />
+      <input type="submit" />
+    </form>
   );
 };
 
