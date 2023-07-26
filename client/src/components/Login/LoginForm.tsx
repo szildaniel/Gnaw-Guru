@@ -1,18 +1,29 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { signIn } from "next-auth/react";
 import "./styles.scss";
 import { useForm, Resolver } from "react-hook-form";
+import { Button } from "../Button/Button";
+import GoogleIcon from "../../assets/icons/google-icon.svg";
+import GithubIcon from "../../assets/icons/github-icon.svg";
+
 
 const LoginForm = () => {
-  const [emailInput, setEmailInput] = useState<undefined | string>();
-  const [passwordInput, setPasswordInput] = useState<undefined | string>();
-
   type FormValues = {
     email: string;
     password: string;
   };
 
+
+  
+  const handleGoogleLogin = () => {
+    signIn("google", { callbackUrl: "/" });
+  };
+
+   const handleGithubLogin = () => {
+     signIn("github", { callbackUrl: "/" });
+  };
+  
   const resolver: Resolver<FormValues> = async (values) => {
     return {
       values: values.email ? values : {},
@@ -43,14 +54,30 @@ const LoginForm = () => {
   });
 
   return (
-    <form onSubmit={onSubmit} className="login__form">
-      <label>Name</label>
-      <input {...register("email")} placeholder="Email" />
-      {errors?.email && <p>{errors.email.message}</p>}
-      <label>Password</label>
-      <input type="password" placeholder="Password" {...register("password")} />
-      <input type="submit" />
-    </form>
+    <>
+      <form onSubmit={onSubmit} className="login__form">
+        <label>Email</label>
+        <input {...register("email")} placeholder="Email" />
+        {errors?.email && <p>{errors.email.message}</p>}
+        <label>Password</label>
+        <input type="password" placeholder="Password" {...register("password")} />
+        <input type="submit" value="Login" className="btn btn-secondary" />
+        <Button
+          textCentered={true}
+          text="Sign in with Google"
+          type="icon-transparent"
+          onClick={handleGoogleLogin}
+          Icon={GoogleIcon}
+        />
+        <Button
+          textCentered={true}
+          text="Sign in with Github"
+          type="icon-transparent"
+          onClick={handleGithubLogin}
+          Icon={GithubIcon}
+        />
+      </form>
+    </>
   );
 };
 

@@ -1,17 +1,36 @@
 .login__form {
   display: flex;
   flex-direction: column;
+  margin-top: 30px;
+  max-width: 570px;
+  width: 100%;
   > label {
     color: #124359;
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 600;
-    line-height: 180%; /* 36px */
+    line-height: 180%;
+    margin-bottom: 8px;
   }
-  > input {
-    max-width: 150px;
+  > input:not([type="submit"]) {
+    width: 100%;
+    border-radius: 15px;
+    background: transparent;
+    border: 1px solid #d9d9d9;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    font-size: 1.25rem;
+    color: #124359;
+    line-height: 180%;
+  
+    &::placeholder {
+      font-size: 1.25rem;
+      color: #124359;
+      line-height: 180%;
+    }
+   
   }
-  > button {
-    max-width: 150px;
-  }
+ > input[type="submit"]{
+  margin-top: 30px;
+ }
 }

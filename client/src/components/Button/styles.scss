@@ -67,4 +67,23 @@
       margin-right: 15px;
     }
   }
+
+  &-icon-transparent {
+    width: 100%;
+    background: transparent;
+    border: 1px solid $text-color;
+    margin-top: 15px;
+    box-sizing: border-box;
+    max-height: 56px;
+    color: #124359;
+    font-family: "Switzer", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & svg{
+      margin-right: 25px;
+    }
+  }
 }

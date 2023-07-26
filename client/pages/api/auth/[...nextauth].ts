@@ -1,6 +1,8 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth, { AuthOptions } from "next-auth";
 import axios from "../../../lib/axios";
+import GoogleProvider from "next-auth/providers/google";
+import GithubProvider from "next-auth/providers/github";
 
 export const authOptions: AuthOptions = {
   // Configure one or more authentication providers
@@ -36,6 +38,14 @@ export const authOptions: AuthOptions = {
           return user;
         } else return null;
       },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+    }),
+    GithubProvider({
+      clientId: process.env.GITHUB_ID ?? "",
+      clientSecret: process.env.GITHUB_SECRET ?? "",
     }),
   ],
 

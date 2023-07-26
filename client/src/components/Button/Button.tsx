@@ -5,7 +5,7 @@ import UserIcon from "../../../src/assets/icons/user-icon.svg";
 type ButtonProps = {
   text: string;
   Icon?: React.FunctionComponent;
-  type: "primary" | "secondary" | "icon-primary" | "icon-secondary";
+  type: "primary" | "secondary" | "icon-primary" | "icon-secondary" | "icon-transparent";
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   textCentered?: boolean;
 };
