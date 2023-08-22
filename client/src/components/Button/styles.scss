@@ -86,4 +86,13 @@
       margin-right: 25px;
     }
   }
+
+  @include media("xxxl"){
+    font-size: 1.1rem;
+    line-height: 150%;
+    &-icon-transparent{
+      max-height: 48px;
+      margin-top: 12px;
+    }
+  }
 }

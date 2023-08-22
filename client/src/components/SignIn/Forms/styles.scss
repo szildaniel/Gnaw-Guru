@@ -25,6 +25,26 @@
     border-radius: 0 30px 30px 0;
     padding-left: 15%;
   }
+  @include media("xxxl") {
+    &__heading {
+      font-size: 1.7rem;
+      margin-top: 50px;
+    }
+    &__subheading {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+    }
+    &__container {
+      padding-left:12%;
+
+    }
+  }
+  @include media("lg") {
+  }
+  @include media("md") {
+  }
+  @include media("xs") {
+  }
 }
 
 .form-switcher {
@@ -52,6 +72,14 @@
       color: black;
       border-color: black;
       transition: all 0.25s ease-in-out;
+    }
+    @include media("xxxl") {
+    }
+    @include media("lg") {
+    }
+    @include media("md") {
+    }
+    @include media("xs") {
     }
   }
 }

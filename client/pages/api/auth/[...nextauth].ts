@@ -36,7 +36,9 @@ export const authOptions: AuthOptions = {
 
         if (user) {
           return user;
-        } else return null;
+        } else {
+          throw new Error( JSON.stringify({errors: user.errors, status: false}))
+        };
       },
     }),
     GoogleProvider({
@@ -62,6 +64,7 @@ export const authOptions: AuthOptions = {
   },
   pages: {
     signIn: "/auth/signIn",
+    error: "/auth/error"
   },
 };
 

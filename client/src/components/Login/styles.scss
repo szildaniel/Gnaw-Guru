@@ -1,36 +1,92 @@
-.login__form {
-  display: flex;
-  flex-direction: column;
-  margin-top: 30px;
-  max-width: 570px;
-  width: 100%;
-  > label {
-    color: #124359;
-    font-size: 1.25rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 180%;
-    margin-bottom: 8px;
-  }
-  > input:not([type="submit"]) {
+@import "../../scss/global.scss";
+
+.login-form {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    max-width: 570px;
     width: 100%;
-    border-radius: 15px;
-    background: transparent;
-    border: 1px solid #d9d9d9;
-    padding: 10px 20px;
-    margin-bottom: 15px;
-    font-size: 1.25rem;
-    color: #124359;
-    line-height: 180%;
-  
-    &::placeholder {
+    label {
+      color: #124359;
+      font-size: 1.25rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 180%;
+      margin-bottom: 8px;
+    }
+    input:not([type="submit"]) {
+      width: 100%;
+      border-radius: 15px;
+      background: transparent;
+      border: 1px solid #d9d9d9;
+      padding: 10px 20px;
       font-size: 1.25rem;
       color: #124359;
       line-height: 180%;
+
+      &::placeholder {
+        font-size: 1.25rem;
+        color: #124359;
+        line-height: 180%;
+      }
+
+      &.no-mb {
+        margin-bottom: 5px;
+      }
+
+      &.invalid {
+        border: 1px solid #ea4335;
+      }
+      &:focus.invalid {
+        border: 1px solid #ea4335;
+      }
+      &:focus-visible.invalid {
+        border: 1px solid #ea4335;
+        // outline: none;
+        outline: #ea4335 auto 1px;
+      }
     }
-   
+    input[type="submit"] {
+      margin-top: 30px;
+      width: 100%;
+    }
   }
- > input[type="submit"]{
-  margin-top: 30px;
- }
+  &__input-container {
+    position: relative;
+    padding-bottom: 24px;
+  }
+  &__error-msg {
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    color: #ea4335;
+    font-family: "Switzer", sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 180%;
+    margin-bottom: 10px;
+  }
+  @include media("xxxl") {
+    &__container {
+      margin-top: 25px;
+      & label {
+        font-size: 1.1rem;
+        line-height: 150%;
+      }
+      input:not([type="submit"]) {
+        font-size: 1.1rem;
+        line-height: 150%;
+        
+      }
+      input[type="submit"] {
+        margin-top: 18px;
+      }
+    }
+
+  }
+   &__input-container {
+    padding-bottom: 18px;
+  }
 }

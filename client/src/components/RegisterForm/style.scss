@@ -1,0 +1,7 @@
+@import '../Login/styles.scss';
+
+.register-form{
+  &__container{
+    @extend .login-form__container;
+  }
+}

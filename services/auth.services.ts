@@ -14,6 +14,7 @@ export async function login(user: IUser, req: Request, res: Response, next: Next
     if (isMatch) {
       next();
     } else {
+      console.log(password);
       return res.status(422).json({ error: "Login error: Invalid credentials" });
     }
   } catch (error) {}
