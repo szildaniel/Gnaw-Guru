@@ -9,16 +9,18 @@ Gnaw Guru is an extraordinary tool created for dentists to assist in the initial
 - [x] Authorization - User Roles
 - [x] Preliminary Online Diagnosis
 - [x] All Dentist Route
+- [ ] Lost password controller
 - [ ] Dentist model and route with Editor Role
 - [ ] Appointment Scheduling
 
 ## Frontend checklist / views
 
-- [ ] Sign up & Login
-- [ ] Github Authentication
+- [x] Sign up & Login
+- [x] Github Authentication
 - [ ] User Dashboard
 - [ ] Dentist Dashboard
 - [ ] Interactive Survey
+- [ ] Lost password view
 - [ ] Calendar with Appointment Scheduling
 
 ## Built With
