@@ -32,3 +32,7 @@ Gnaw Guru is an extraordinary tool created for dentists to assist in the initial
 ## Author
 
 - **Daniel Mydlarz** - [GitHub](https://github.com/szildaniel)
+
+## Graphic Design
+
+- **Bartłomiej Szczurek** - [Behance](https://www.behance.net/bsgrafik?tracking_source=search_users)
