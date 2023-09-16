@@ -82,17 +82,58 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    & svg{
+    & svg {
       margin-right: 25px;
     }
   }
 
-  @include media("xxxl"){
+  @include media("xxxl") {
     font-size: 1.1rem;
     line-height: 150%;
-    &-icon-transparent{
+    &-icon-transparent {
       max-height: 48px;
+      margin-top: 22px;
+    }
+  }
+
+  @media only screen and (min-width: 1401px) and (max-width: 1550px) {
+    margin-top: 20px;
+    min-width: 245px;
+  }
+  @include media("xxl") {
+    &-icon-transparent {
       margin-top: 12px;
+    }
+  }
+
+  @include media("xl") {
+    font-size: 1rem;
+    line-height: 150%;
+   
+    &-icon-transparent {
+      max-height: 48px;
+      margin-top: 16px;
+    }
+  }
+  @include media("lg"){
+    font-size: 1.1rem;
+  }
+}
+
+@include media("xxl") {
+  .form-switcher__container {
+    .btn {
+      width: calc((100% / 2) - 15px);
+      min-width: 0;
+    }
+  }
+}
+
+@include media("xl") {
+  .form-switcher__container {
+    .btn {
+      width: calc((100% / 2) - 10px);
+      min-width: 0;
     }
   }
 }

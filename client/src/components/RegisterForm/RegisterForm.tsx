@@ -7,8 +7,18 @@ import { TRegisterForm } from "@/types/FormValuesType";
 import axios, { isAxiosError } from "axios";
 import { signIn } from "next-auth/react";
 import useAsyncError from "../../../lib/hooks/useAsyncError";
+import { TForms } from "../SignIn/Forms/Forms";
+type SwitcherFunction = (switchType: TForms) => void;
 
-export const RegisterForm = () => {
+export const RegisterForm = ({
+  switchForm,
+  activeForm,
+  isCollapsed,
+}: {
+  switchForm: SwitcherFunction;
+  activeForm: TForms;
+  isCollapsed: boolean;
+}) => {
   const throwError = useAsyncError();
 
   const schema = Joi.object({
@@ -22,7 +32,6 @@ export const RegisterForm = () => {
       .required(),
     name: Joi.string().min(2).max(20).rule({ message: "Name must be between 2 and 20" }).required(),
   });
-
 
   const {
     register,
@@ -65,7 +74,7 @@ export const RegisterForm = () => {
   });
 
   return (
-    <div className="register-form__container">
+    <div className={`register-form__container ${isCollapsed ? "mobile-collapsed" : ""}`}>
       <form onSubmit={onSubmit}>
         <div className="login-form__input-container">
           <label>Name</label>

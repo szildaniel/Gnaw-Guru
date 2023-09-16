@@ -52,13 +52,10 @@
       width: 100%;
     }
   }
-  &__input-container {
-    position: relative;
-    padding-bottom: 24px;
-  }
+
   &__error-msg {
     position: absolute;
-    bottom: -10px;
+    bottom: -12px;
     left: 0;
     color: #ea4335;
     font-family: "Switzer", sans-serif;
@@ -68,9 +65,21 @@
     line-height: 180%;
     margin-bottom: 10px;
   }
+  &__input-container {
+    position: relative;
+    padding-bottom: 24px;
+    &:last-of-type {
+      padding-bottom: 35px;
+    }
+    &:last-of-type {
+      & .login-form__error-msg {
+        bottom: 4px;
+      }
+    }
+  }
   @include media("xxxl") {
     &__container {
-      margin-top: 25px;
+      margin-top: 50px;
       & label {
         font-size: 1.1rem;
         line-height: 150%;
@@ -78,15 +87,76 @@
       input:not([type="submit"]) {
         font-size: 1.1rem;
         line-height: 150%;
-        
       }
       input[type="submit"] {
-        margin-top: 18px;
+        margin-top: 40px;
       }
     }
-
+    &__input-container {
+      padding-bottom: 18px;
+    }
   }
-   &__input-container {
-    padding-bottom: 18px;
+  @media only screen and (min-width: 1401px) and (max-width: 1550px) {
+    &__input-container {
+      padding-bottom: 26px;
+    }
+    &__container {
+      margin-top: 25px;
+
+      input[type="submit"] {
+        margin-top: 30px;
+      }
+    }
+  }
+  @include media("xxl") {
+    &__container {
+      margin-top: 25px;
+      input[type="submit"] {
+        margin-top: 25px;
+      }
+    }
+    &__input-container {
+      &:last-of-type {
+        padding-bottom: 25px;
+      }
+    }
+  }
+  @media only screen and (min-width: 1201px) and (max-width: 1325px) {
+    &__container {
+      margin-top: 15px;
+      input[type="submit"] {
+        margin-top: 15px;
+      }
+    }
+    &__input-container {
+      &:last-of-type {
+        padding-bottom: 15px;
+      }
+    }
+  }
+  @include media("xl") {
+    &__container {
+      margin-top: 20px;
+      input[type="submit"] {
+        margin-top: 20px;
+      }
+    }
+    &__input-container {
+      &:last-of-type {
+        padding-bottom: 20px;
+      }
+    }
+  }
+  @include media("lg") {
+    &__container {
+      max-width: none;
+      max-height: 800px;
+      transition: max-height .35s ease-out;  
+      &.mobile-collapsed {
+        height: 60%;
+        max-height: 0;
+        overflow: hidden;
+      }
+    }
   }
 }

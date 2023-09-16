@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {useState} from "react";
 import { signIn } from "next-auth/react";
 import "./styles.scss";
 import { useForm } from "react-hook-form";
@@ -11,6 +11,9 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 import useAsyncError from "../../../lib/hooks/useAsyncError";
 import { useRouter } from "next/router";
+import { TForms } from "../SignIn/Forms/Forms";
+
+type SwitcherFunction = (switchType: TForms) => void;
 
 const schema = Joi.object({
   email: Joi.string()
@@ -23,16 +26,25 @@ const schema = Joi.object({
     .required(),
 });
 
-const LoginForm = () => {
+const LoginForm = ({
+  switchForm,
+  activeForm,
+  isCollapsed
+}: {
+  switchForm: SwitcherFunction;
+  activeForm: TForms;
+  isCollapsed: boolean
+}) => {
   const throwError = useAsyncError();
 
   const handleGoogleLogin = () => {
-    signIn("google", { callbackUrl: "/" });
+    signIn("google", { callbackUrl: "/dashboard" });
   };
 
   const handleGithubLogin = () => {
-    signIn("github", { callbackUrl: "/" });
+    signIn("github", { callbackUrl: "/dashboard" });
   };
+
 
   const {
     register,
@@ -50,12 +62,12 @@ const LoginForm = () => {
     if (result?.error) {
       throwError(new Error("Sorry, wrong credentials."));
     } else {
-      router.push('/dashboard');
+      router.push("/dashboard");
     }
   });
 
   return (
-    <div className="login-form__container">
+    <div className={`login-form__container ${isCollapsed ? "mobile-collapsed" : ""}`}>
       <form onSubmit={onSubmit}>
         <div className="login-form__input-container">
           <label>Email</label>
@@ -76,6 +88,12 @@ const LoginForm = () => {
           />
           {errors?.password && <p className="login-form__error-msg">{errors.password.message}</p>}
         </div>
+        <span className="forms__helper-text">
+          Don&apos;t have account?{" "}
+          <button className="forms__int-link" onClick={() => switchForm("register")}>
+            Register
+          </button>
+        </span>
         <input type="submit" value="Login" className="btn btn-secondary" />
       </form>
       <Button
@@ -97,6 +115,3 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-function setState(arg0: () => never) {
-  throw new Error("Function not implemented.");
-}

@@ -37,7 +37,7 @@ export default function App({ Component, pageProps }: AppProps) {
           font-family: ${switzer.style.fontFamily};
         }
       `}</style>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </>
   );
 }
