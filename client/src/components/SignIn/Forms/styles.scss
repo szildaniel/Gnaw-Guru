@@ -95,12 +95,18 @@
     }
     &__heading {
       font-size: 1.85rem;
-      margin-top: 50px;
+      margin-top: 40px;
     }
     &__subheading {
       font-size: 1.2rem;
       line-height: 165%;
       margin-bottom: 25px;
+    }
+    &__helper-text {
+      font-size: 1.2rem;
+    }
+    &__int-link {
+      font-size: 1.2rem;
     }
   }
   @include media("xxl") {
@@ -185,9 +191,29 @@
       font-size: 1.2rem;
     }
   }
-  @include media("md") {
+  @include media("sm") {
+    &__container {
+      padding: 23px 20px;
+    }
+    &__heading {
+      font-size: 1.5rem;
+    }
+    &__subheading {
+      font-size: 1rem;
+    }
+    &__helper-text {
+      font-size: 1rem;
+      text-align: center;
+    }
+    &__int-link {
+      font-size: 1rem;
+    }
   }
   @include media("xs") {
+    &__subheading {
+      line-height: 150%;
+      margin-bottom: 16px;
+    }
   }
 }
 
@@ -229,6 +255,9 @@
   @include media("lg") {
     &__container {
       max-width: none;
+      max-width: 450px;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 }

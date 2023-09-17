@@ -98,7 +98,15 @@
   }
   @media only screen and (min-width: 1401px) and (max-width: 1550px) {
     &__input-container {
-      padding-bottom: 26px;
+      padding-bottom: 20px;
+      &:last-of-type {
+        padding-bottom: 26px;
+      }
+      &:last-of-type {
+        & .login-form__error-msg {
+          bottom: -5px;
+        }
+      }
     }
     &__container {
       margin-top: 25px;
@@ -151,11 +159,34 @@
     &__container {
       max-width: none;
       max-height: 800px;
-      transition: max-height .35s ease-out;  
+      transition: max-height 0.35s ease-out;
+      transition: margin 0.35 ease-out;
       &.mobile-collapsed {
         height: 60%;
         max-height: 0;
         overflow: hidden;
+        margin-top: 0;
+      }
+      input:not([type="submit"]) {
+        &::placeholder {
+          font-size: 1.15rem;
+        }
+      }
+    }
+    &__input-container {
+      &:last-of-type {
+        & .login-form__error-msg {
+          bottom: -12px;
+        }
+      }
+    }
+  }
+  @include media("sm") {
+    &__container {
+      input:not([type="submit"]) {
+        &::placeholder {
+          font-size: 1.05rem;
+        }
       }
     }
   }
