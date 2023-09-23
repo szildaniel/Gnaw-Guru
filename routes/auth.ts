@@ -43,6 +43,16 @@ authRouter.post(
   generateAuthToken
 );
 
+// @route POST api/reset-password-request
+// @desc Request reset user password
+// @access public
+authRouter.post(
+  "/reset-password-request",
+  [check("email", "Please include a valid email").isEmail()],
+  generateAuthToken,
+  authController.resetPasswordRequest,
+);
+
 // @route POST api/refresh
 // @desc Refresh auth token User
 // @access private

@@ -13,6 +13,7 @@ declare global {
   namespace Express {
     interface Request extends Document {
       userId: string;
+      accessToken?: string;
       roles: number[];
     }
   }

@@ -31,7 +31,6 @@ function login(user, req, res, next) {
                 next();
             }
             else {
-                console.log(password);
                 return res.status(422).json({ error: "Login error: Invalid credentials" });
             }
         }

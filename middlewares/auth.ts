@@ -5,6 +5,7 @@ import UserModel from "../models/users.model";
 import { generateJWT } from "../utils/auth";
 import ms from "ms";
 import { CustomError } from "../models/customError.model";
+import { resetPasswordRequest } from "../controllers/auth.controller";
 
 const dev = process.env.NODE_ENV === "development";
 const refreshTokenLife: string = config.get("REFRESH_TOKEN_LIFE");
@@ -28,7 +29,7 @@ export interface IDecodedToken2 {
 
 export const generateAuthToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { email } = req.body;
+    const { email, resetPwRequest } = req.body;
     const user = await UserModel.findOne({ email: email });
     if (user) {
       const refreshToken = generateJWT(user._id.toString(), refreshSecretKey, refreshTokenLife);
@@ -43,7 +44,6 @@ export const generateAuthToken = async (req: Request, res: Response, next: NextF
         refreshToken,
         expirationTime: new Date(Date.now() + ms(refreshTokenLife)),
       };
-
       const updatedUser = await UserModel.findOneAndUpdate(
         { _id: user._id },
         { refreshToken: token }
@@ -51,6 +51,10 @@ export const generateAuthToken = async (req: Request, res: Response, next: NextF
 
       const expiresAt = new Date(Date.now() + ms(accessTokenLife));
 
+      if (resetPwRequest) {
+        req.accessToken = accessToken;
+        return next();
+      }
       return res.status(200).json({
         name: user.name,
         expiresAt,

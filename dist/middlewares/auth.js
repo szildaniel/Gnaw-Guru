@@ -26,7 +26,7 @@ const accessTokenLife = config_1.default.get("ACCESS_TOKEN_LIFE");
 const accessSecretKey = config_1.default.get("SECRET_ACCESS_KEY");
 const generateAuthToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email } = req.body;
+        const { email, resetPwRequest } = req.body;
         const user = yield users_model_1.default.findOne({ email: email });
         if (user) {
             const refreshToken = (0, auth_1.generateJWT)(user._id.toString(), refreshSecretKey, refreshTokenLife);
@@ -37,6 +37,10 @@ const generateAuthToken = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             };
             const updatedUser = yield users_model_1.default.findOneAndUpdate({ _id: user._id }, { refreshToken: token });
             const expiresAt = new Date(Date.now() + (0, ms_1.default)(accessTokenLife));
+            if (resetPwRequest) {
+                req.accessToken = accessToken;
+                return next();
+            }
             return res.status(200).json({
                 name: user.name,
                 expiresAt,

@@ -51,6 +51,10 @@ authRouter.post("/login", [
         max: 20,
     }),
 ], authController.loginOne, auth_1.generateAuthToken);
+// @route POST api/reset-password-request
+// @desc Request reset user password
+// @access public
+authRouter.post("/reset-password-request", [(0, express_validator_1.check)("email", "Please include a valid email").isEmail()], auth_1.generateAuthToken, authController.resetPasswordRequest);
 // @route POST api/refresh
 // @desc Refresh auth token User
 // @access private

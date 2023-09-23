@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logoutOne = exports.refreshOne = exports.loginOne = exports.registerOne = void 0;
+exports.logoutOne = exports.refreshOne = exports.loginOne = exports.resetPasswordRequest = exports.registerOne = void 0;
 const users_model_1 = __importDefault(require("../models/users.model"));
 const authServices = __importStar(require("../services/auth.services"));
 const express_validator_1 = require("express-validator");
@@ -44,6 +44,8 @@ const config_1 = __importDefault(require("config"));
 const ms_1 = __importDefault(require("ms"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const customError_model_1 = require("../models/customError.model");
+const resetPassword_1 = __importDefault(require("../templates/resetPassword"));
+const mail_services_1 = __importDefault(require("../services/mail.services"));
 function registerOne(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         const errors = (0, express_validator_1.validationResult)(req);
@@ -71,6 +73,41 @@ function registerOne(req, res, next) {
     });
 }
 exports.registerOne = registerOne;
+function resetPasswordRequest(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const errors = (0, express_validator_1.validationResult)(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({
+                errors: errors.array(),
+            });
+        }
+        const { email } = req.body;
+        try {
+            const user = yield users_model_1.default.findOne({ email });
+            if (!user) {
+                res.status(422).json({ error: "Login error: Invalid credentials" });
+            }
+            else {
+                const clientURL = config_1.default.get("CLIENT_URL");
+                const link = `${clientURL}/passwordReset?token=${req.accessToken}?userEmail=${email}`;
+                const emailTemplate = (0, resetPassword_1.default)(link, user.name);
+                const mailService = mail_services_1.default.getInstance();
+                yield mailService.sendMail(req.headers["X-Request-Id"], {
+                    to: email,
+                    from: "admin@gnawguru.com",
+                    subject: "GnawGuru - Reset password",
+                    html: emailTemplate.html,
+                });
+                return res.status(200).json({ msg: "Success! Check your email inbox and click link!" });
+            }
+        }
+        catch (error) {
+            console.log("Server error! Can't login!", error);
+            return res.sendStatus(500);
+        }
+    });
+}
+exports.resetPasswordRequest = resetPasswordRequest;
 function loginOne(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         const errors = (0, express_validator_1.validationResult)(req);
@@ -98,7 +135,6 @@ function loginOne(req, res, next) {
 exports.loginOne = loginOne;
 function refreshOne(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("refresh token working");
         const secretRefreshKey = config_1.default.get("SECRET_REFRESH_KEY");
         const secretAccessKey = config_1.default.get("SECRET_ACCESS_KEY");
         const accessTokenLife = config_1.default.get("ACCESS_TOKEN_LIFE");

@@ -7,6 +7,8 @@ import config from "config";
 import ms from "ms";
 import jwt, { Secret } from "jsonwebtoken";
 import { CustomError } from "../models/customError.model";
+import resetPassword from "../templates/resetPassword";
+import MailService from "../services/mail.services";
 
 export interface IDecodedRefreshToken {
   userId: string;
@@ -39,6 +41,40 @@ export async function registerOne(req: Request, res: Response, next: NextFunctio
   }
 }
 
+export async function resetPasswordRequest(req: Request, res: Response, next: NextFunction) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({
+      errors: errors.array(),
+    });
+  }
+  const { email } = req.body;
+
+  try {
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      res.status(422).json({ error: "Login error: Invalid credentials" });
+    } else {
+      const clientURL: string = config.get("CLIENT_URL");
+      const link = `${clientURL}/passwordReset?token=${req.accessToken}?userEmail=${email}`;
+       const emailTemplate = resetPassword(link, user.name);
+     
+       const mailService = MailService.getInstance();
+       await mailService.sendMail(req.headers["X-Request-Id"], {
+           to: email,
+         from: "admin@gnawguru.com",
+         subject: "GnawGuru - Reset password",
+         html: emailTemplate.html,
+       });
+      return res.status(200).json({msg: "Success! Check your email inbox and click link!"})
+    }
+  } catch (error) {
+    console.log("Server error! Can't login!", error);
+    return res.sendStatus(500);
+  }
+}
+
 export async function loginOne(req: Request, res: Response, next: NextFunction) {
   const errors = validationResult(req);
 
@@ -64,7 +100,6 @@ export async function loginOne(req: Request, res: Response, next: NextFunction) 
 }
 
 export async function refreshOne(req: Request, res: Response, next: NextFunction) {
-  console.log("refresh token working");
 
   const secretRefreshKey: Secret = config.get("SECRET_REFRESH_KEY");
   const secretAccessKey: Secret = config.get("SECRET_ACCESS_KEY");

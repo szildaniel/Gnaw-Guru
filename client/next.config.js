@@ -5,6 +5,15 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/auth/signIn',
+        permanent: true
+      }
+    ]
+  },
   webpack(config) {
     const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.(".svg"));
     config.module.rules.push(
