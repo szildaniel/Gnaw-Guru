@@ -35,9 +35,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.saltRounds = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const saltRounds = 8;
+exports.saltRounds = 8;
 const UserSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     password: { type: String, required: true },
@@ -52,7 +53,7 @@ UserSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = this;
         if (user.isModified("password")) {
-            user.password = yield bcrypt_1.default.hash(user.password, saltRounds);
+            user.password = yield bcrypt_1.default.hash(user.password, exports.saltRounds);
         }
         next();
     });

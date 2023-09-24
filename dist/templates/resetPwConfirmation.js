@@ -1,5 +1,7 @@
-const resetPasswordTemplate = function (link: string, name: string) {
-  const html = `
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const resetPasswordConfirmation = function (name) {
+    const html = `
     <!DOCTYPE html>
 <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
@@ -103,12 +105,10 @@ const resetPasswordTemplate = function (link: string, name: string) {
                       <p style="font-weight: 600; font-size: 18px; margin-bottom: 10px;margin-top: 10px">Hey ${name},</p>
 
                       <p style="margin: 0 0 24px;">
-                        If you want to restart your GnawGuru account password please click link below:
+                       Your password has been changed successfully.
                       </p>
                       
-                      <lable style="display: block; font-size: 22px; line-height: 100%; margin-bottom: 20px; --text-opacity: 1; color: #000000; text-decoration: none;"><a href="${link}" style=display: block; font-size: 22px; line-height: 100%; margin-top: 20px; --text-opacity: 1; color: #000000; text-decoration: none";>RESET PASSWORD</a>
-
-                      </lable>
+                   
                       <table style="font-family: 'Montserrat',Arial,sans-serif;" cellpadding="0" cellspacing="0"
                         role="presentation">
                         <tr>
@@ -119,10 +119,6 @@ const resetPasswordTemplate = function (link: string, name: string) {
                         </tr>
                       </table>
 
-                      <p style="margin: 20px 0 2px;">
-                        If you did not request this password reset, please contact us immediately.
-                        <br>GnawGuru Support
-                      </p>
 
                       <table style="font-family: 'Montserrat',Arial,sans-serif; width: 100%;" width="100%"
                         cellpadding="0" cellspacing="0" role="presentation">
@@ -158,16 +154,13 @@ const resetPasswordTemplate = function (link: string, name: string) {
 </body>
 
 </html>`;
+    const text = `
+        Hi ${name},
 
-  const text = `
-        Reset Password, You recently requested to reset your password for your GnawGuru account. Follow this link to reset your password:
-        ${link}
-
-If you did not requested a password reset, please ignore this email or reply to let us know. This password reset is only valid for the next 2 hours.`;
-  return {
-    html: html,
-    text: text,
-  };
+Your password has been changed successfully.`;
+    return {
+        html: html,
+        text: text,
+    };
 };
-
-export default resetPasswordTemplate;
+exports.default = resetPasswordConfirmation;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const resetPassword = function (link, name) {
+const resetPasswordTemplate = function (link, name) {
     const html = `
     <!DOCTYPE html>
 <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -108,7 +108,7 @@ const resetPassword = function (link, name) {
                         If you want to restart your GnawGuru account password please click link below:
                       </p>
                       
-                      <lable style="display: block; font-size: 22px; line-height: 100%; margin-bottom: 20px; --text-opacity: 1; color: #000000; text-decoration: none;"><a href="${link} style=display: block; font-size: 22px; line-height: 100%; margin-top: 20px; --text-opacity: 1; color: #000000; text-decoration: none";>RESET PASSWORD</a>
+                      <lable style="display: block; font-size: 22px; line-height: 100%; margin-bottom: 20px; --text-opacity: 1; color: #000000; text-decoration: none;"><a href="${link}" style=display: block; font-size: 22px; line-height: 100%; margin-top: 20px; --text-opacity: 1; color: #000000; text-decoration: none";>RESET PASSWORD</a>
 
                       </lable>
                       <table style="font-family: 'Montserrat',Arial,sans-serif;" cellpadding="0" cellspacing="0"
@@ -170,4 +170,4 @@ If you did not requested a password reset, please ignore this email or reply to 
         text: text,
     };
 };
-exports.default = resetPassword;
+exports.default = resetPasswordTemplate;

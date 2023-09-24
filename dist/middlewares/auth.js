@@ -23,6 +23,7 @@ const dev = process.env.NODE_ENV === "development";
 const refreshTokenLife = config_1.default.get("REFRESH_TOKEN_LIFE");
 const refreshSecretKey = config_1.default.get("SECRET_REFRESH_KEY");
 const accessTokenLife = config_1.default.get("ACCESS_TOKEN_LIFE");
+const resetPwAccessTokenLife = config_1.default.get("RESET_PW_TOKEN_LIFE");
 const accessSecretKey = config_1.default.get("SECRET_ACCESS_KEY");
 const generateAuthToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -30,7 +31,7 @@ const generateAuthToken = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         const user = yield users_model_1.default.findOne({ email: email });
         if (user) {
             const refreshToken = (0, auth_1.generateJWT)(user._id.toString(), refreshSecretKey, refreshTokenLife);
-            const accessToken = (0, auth_1.generateJWT)(user._id.toString(), accessSecretKey, accessTokenLife, user.roles);
+            const accessToken = (0, auth_1.generateJWT)(user._id.toString(), accessSecretKey, resetPwRequest ? resetPwAccessTokenLife : accessTokenLife, user.roles);
             const token = {
                 refreshToken,
                 expirationTime: new Date(Date.now() + (0, ms_1.default)(refreshTokenLife)),

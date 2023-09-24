@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 import bcrypt from "bcrypt";
-const saltRounds = 8;
+
+export const saltRounds = 8;
 
 export interface IRefreshToken extends Document {
   refreshToken: string;

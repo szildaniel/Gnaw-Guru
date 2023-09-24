@@ -5,12 +5,12 @@ import UserModel from "../models/users.model";
 import { generateJWT } from "../utils/auth";
 import ms from "ms";
 import { CustomError } from "../models/customError.model";
-import { resetPasswordRequest } from "../controllers/auth.controller";
 
 const dev = process.env.NODE_ENV === "development";
 const refreshTokenLife: string = config.get("REFRESH_TOKEN_LIFE");
 const refreshSecretKey: Secret = config.get("SECRET_REFRESH_KEY");
 const accessTokenLife: string = config.get("ACCESS_TOKEN_LIFE");
+const resetPwAccessTokenLife: string = config.get("RESET_PW_TOKEN_LIFE");
 const accessSecretKey: Secret = config.get("SECRET_ACCESS_KEY");
 
 export interface IDecodedToken {
@@ -36,7 +36,7 @@ export const generateAuthToken = async (req: Request, res: Response, next: NextF
       const accessToken = generateJWT(
         user._id.toString(),
         accessSecretKey,
-        accessTokenLife,
+        resetPwRequest ? resetPwAccessTokenLife : accessTokenLife,
         user.roles
       );
 

@@ -55,6 +55,15 @@ authRouter.post("/login", [
 // @desc Request reset user password
 // @access public
 authRouter.post("/reset-password-request", [(0, express_validator_1.check)("email", "Please include a valid email").isEmail()], auth_1.generateAuthToken, authController.resetPasswordRequest);
+// @route POST api/reset-password
+// @desc Reset user password
+// @access public
+authRouter.post("/reset-password", [
+    (0, express_validator_1.check)("newPassword", "Please enter a password with 6 or more characters and less than 20 characters.").isLength({
+        min: 6,
+        max: 20,
+    }),
+], authController.resetPassword);
 // @route POST api/refresh
 // @desc Refresh auth token User
 // @access private
