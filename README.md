@@ -9,7 +9,7 @@ Gnaw Guru is an extraordinary tool created for dentists to assist in the initial
 - [x] Authorization - User Roles
 - [x] Preliminary Online Diagnosis
 - [x] All Dentist Route
-- [ ] Lost password controller
+- [x] Lost password backend
 - [ ] Dentist model and route with Editor Role
 - [ ] Appointment Scheduling
 
@@ -17,10 +17,10 @@ Gnaw Guru is an extraordinary tool created for dentists to assist in the initial
 
 - [x] Sign up & Login
 - [x] Github Authentication
+- [ ] Lost password frontend
 - [ ] User Dashboard
 - [ ] Dentist Dashboard
 - [ ] Interactive Survey
-- [ ] Lost password view
 - [ ] Calendar with Appointment Scheduling
 
 ## Built With
@@ -28,6 +28,7 @@ Gnaw Guru is an extraordinary tool created for dentists to assist in the initial
 - [ExpressJS](https://expressjs.com/) - Fast, unopinionated, minimalist web framework for Node.js
 - [Next.js](https://nextjs.org/) - The React Framework for the Web
 - [MongoDB](https://www.mongodb.com/) - powerful and flexible NoSQL database solution that offers scalable and document-oriented storage for efficient data management
+- [Nodemailer](https://nodemailer.com/) - email sending from Node.js application
 
 ## Author
 

@@ -36,15 +36,15 @@
       }
 
       &.invalid {
-        border: 1px solid #ea4335;
+        border: 1px solid $error-color;
       }
       &:focus.invalid {
-        border: 1px solid #ea4335;
+        border: 1px solid $error-color;
       }
       &:focus-visible.invalid {
-        border: 1px solid #ea4335;
+        border: 1px solid $error-color;
         // outline: none;
-        outline: #ea4335 auto 1px;
+        outline: $error-color auto 1px;
       }
     }
     input[type="submit"] {
@@ -52,12 +52,19 @@
       width: 100%;
     }
   }
-
+  &__reset-link{
+    margin-left: auto;
+  }
+  &__pw-label{
+    display: flex;
+    width: 100%;
+    margin-bottom: 0;
+  }
   &__error-msg {
     position: absolute;
     bottom: -12px;
     left: 0;
-    color: #ea4335;
+    color: $error-color;
     font-family: "Switzer", sans-serif;
     font-size: 12px;
     font-style: normal;

@@ -9,7 +9,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="dashboard__container">
-        <h1>Dashboard page coming soon</h1>
+        <h1 className="dashboard__heading">Dashboard page coming soon</h1>
         <h2>Hello {session?.user.name}</h2>
         <h3>This is worth waiting for.</h3>
         <div className="dashboard__link-container">

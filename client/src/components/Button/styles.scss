@@ -16,7 +16,15 @@
   padding-top: 10px;
   padding-bottom: 10px;
   min-width: 260px;
-
+  &:disabled {
+    background-color: dimgrey;
+    color: linen;
+    opacity: 1;
+    cursor: default;
+    &:hover,&:focus,&:focus-visible,&:focus-within{
+      background-color: rgb(117, 117, 117);
+    }
+  }
   &-primary {
     background: $primary-color;
     color: $tertiary-color;

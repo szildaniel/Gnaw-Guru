@@ -1,0 +1,42 @@
+@import '../../scss//utilities/breakpoints.scss';
+
+.container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 1700px;
+  width: calc(100vw - 150px);
+  height: calc(100vh - 130px);
+  display: flex;
+  border-radius: 30px;
+  background: transparent;
+  overflow: hidden;
+  @include media("xxxl") {
+    width: calc(100vw - 110px);
+    height: calc(100vh - 90px);
+  }
+  @media only screen and (min-width: 1401px) and (max-width: 1550px) {
+    width: calc(100vw - 80px);
+    height: calc(100vh - 60px);
+  }
+  @include media("xxl") {
+    width: calc(100vw - 100px);
+    height: calc(100vh - 80px);
+  }
+  @include media("xl") {
+    width: calc(100vw - 60px);
+    height: calc(100vh - 60px);
+  }
+  @include media("lg") {
+    flex-direction: column;
+    width: calc(100vw - 80px);
+    height: calc(100vh - 60px);
+    border-radius: 30px;
+  }
+
+  @include media("sm") {
+    width: calc(100vw - 20px);
+    height: calc(100vh - 16px);
+  }
+}

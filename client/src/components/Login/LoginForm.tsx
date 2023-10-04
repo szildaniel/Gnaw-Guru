@@ -1,5 +1,5 @@
 "use client";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import "./styles.scss";
 import { useForm } from "react-hook-form";
@@ -12,6 +12,7 @@ import Joi from "joi";
 import useAsyncError from "../../../lib/hooks/useAsyncError";
 import { useRouter } from "next/router";
 import { TForms } from "../SignIn/Forms/Forms";
+import Link from "next/link";
 
 type SwitcherFunction = (switchType: TForms) => void;
 
@@ -29,11 +30,11 @@ const schema = Joi.object({
 const LoginForm = ({
   switchForm,
   activeForm,
-  isCollapsed
+  isCollapsed,
 }: {
   switchForm: SwitcherFunction;
   activeForm: TForms;
-  isCollapsed: boolean
+  isCollapsed: boolean;
 }) => {
   const throwError = useAsyncError();
 
@@ -44,7 +45,6 @@ const LoginForm = ({
   const handleGithubLogin = () => {
     signIn("github", { callbackUrl: "/dashboard" });
   };
-
 
   const {
     register,
@@ -79,7 +79,12 @@ const LoginForm = ({
           {errors?.email && <p className="login-form__error-msg">{errors.email.message}</p>}
         </div>
         <div className="login-form__input-container">
-          <label>Password</label>
+          <label className="login-form__pw-label">
+            Password
+            <Link className="link login-form__reset-link" href="/reset-password-request">
+              Forgot password?
+            </Link>
+          </label>
           <input
             type="password"
             placeholder="Password"

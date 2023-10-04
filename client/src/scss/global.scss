@@ -87,8 +87,128 @@ a {
 
 .main-heading {
   color: $text-color;
-  font-size: 2rem;
-  line-height: 2.5em;
-  margin-top: 80px;
-  text-align: center;
+  font-family: "Switzer", sans-serif;
+  font-size: 3.9rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 110%;
+  margin-top: 120px;
+  z-index: 2;
+  @include media("xxxl") {
+    font-size: 3rem;
+    margin-top: 80px;
+  }
+  @media only screen and (min-width: 1401px) and (max-width: 1550px) {
+    padding-right: 130px;
+  }
+  @include media("xxl") {
+    font-size: 2.7rem;
+    padding-right: 110px;
+  }
+  @include media("xl") {
+    font-size: 2.1rem;
+    padding-right: 85px;
+    margin-top: 65px;
+  }
+}
+
+.basic-text {
+  color: $text-color;
+  font-family: "Switzer", sans-serif;
+  font-size: 1.5rem;
+  @include media("xxxl") {
+    font-size: 1.3rem;
+  }
+  @include media("xxl") {
+    font-size: 1.2rem;
+  }
+}
+
+.forms {
+  &__input-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    & label {
+      color: $text-color;
+      font-family: "Switzer", sans-serif;
+      font-size: 1.15rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 150%;
+    }
+    input:not([type="submit"]) {
+      width: 100%;
+      border-radius: 15px;
+      background: transparent;
+      border: 1px solid #d9d9d9;
+      padding: 10px 20px;
+      font-size: 1.15rem;
+      color: #124359;
+      line-height: 150%;
+
+      &::placeholder {
+        font-size: 1.15rem;
+        color: #124359;
+        line-height: 150%;
+      }
+
+      &.no-mb {
+        margin-bottom: 5px;
+      }
+
+      &.invalid {
+        border: 1px solid $error-color;
+      }
+      &:focus.invalid {
+        border: 1px solid $error-color;
+      }
+      &:focus-visible.invalid {
+        border: 1px solid $error-color;
+        // outline: none;
+        outline: $error-color auto 1px;
+      }
+    }
+    input[type="submit"] {
+      margin-top: 25px;
+      display: block;
+    }
+
+    &:last-of-type {
+      padding-bottom: 35px;
+    }
+  }
+
+  &__error-msg {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    color: $error-color;
+    font-family: "Switzer", sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 180%;
+    margin-bottom: 10px;
+    bottom: -33px;
+  }
+  &__success-msg {
+    margin-top: 10px;
+    color: $success-color;
+    font-size: 0.9rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 180%;
+    margin-bottom: 10px;
+    font-family: "Switzer", sans-serif;
+  }
+}
+
+.link {
+  font-size: 1rem;
+  font-family: "Switzer", sans-serif;
+  line-height: 180%;
+  color: $tertiary-color;
+  font-weight: 400;
 }
